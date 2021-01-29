@@ -1,0 +1,7 @@
+{
+  "name": "Biklas",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
