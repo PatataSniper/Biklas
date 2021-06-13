@@ -1,7 +1,7 @@
 import React from "react"
 
 import AmigosContext from "../data/amigos-context"
-// Prueba 3
+
 const AmigosContextProvider: React.FC<{children:  {}}> = (props) => {
     var nuevoId = 1;
     const amigos = [
