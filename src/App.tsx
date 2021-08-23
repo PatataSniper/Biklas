@@ -34,6 +34,7 @@ import './theme/theme.css';
 import Ruta from './pages/Ruta';
 import Filtro from './pages/Amigos';
 import Amigos from './pages/Amigos';
+import InicioSesion from './pages/InicioSesion';
 
 import RutasContextProvider from './data/RutasContextProvider';
 import AmigosContextProvider from './data/AmigosContextProvider';
@@ -49,9 +50,6 @@ const App: React.FC = () => {
             <Route path="/filtro" exact>
               <Filtro />
             </Route>
-            <Route path="/" exact>
-              <Rodar></Rodar>
-            </Route>
             <Route path="/rodar" exact>
               <Rodar></Rodar>
             </Route>
@@ -66,19 +64,12 @@ const App: React.FC = () => {
                 <Amigos />
               </AmigosContextProvider>
             </Route>
-            <Redirect to="/rodar" />
+            <Route path="/inicioSesion" exact>
+              <InicioSesion></InicioSesion>
+            </Route>
+            <Redirect exact from="/" to="/rodar" />
           </IonRouterOutlet>
         </RutasContextProvider>
-        {/* <IonTabBar slot="bottom">
-            <IonTabButton tab="rodar" href="/rodar">
-              <IonIcon icon={bicycle}></IonIcon>
-              <IonLabel>Rodar</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="rutas" href="/rutas">
-              <IonIcon icon={mapSharp}></IonIcon>
-              <IonLabel>Rutas</IonLabel>
-            </IonTabButton>
-          </IonTabBar> */}
       </IonReactRouter>
     </IonApp>
   );

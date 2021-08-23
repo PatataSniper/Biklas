@@ -11,7 +11,7 @@ import {
   IonIcon,
   IonLabel,
 } from "@ionic/react";
-import { bicycle, mapSharp, person } from "ionicons/icons";
+import { bicycle, mapSharp, person, personCircle } from "ionicons/icons";
 
 const MenuLateral: React.FC = () => {
     return (
@@ -47,6 +47,12 @@ const MenuLateral: React.FC = () => {
                 >
                   <IonIcon slot="start" icon={person} />
                   <IonLabel>Amigos</IonLabel>
+                </IonItem>
+              </IonMenuToggle>
+              <IonMenuToggle key="inicioSesion">
+                <IonItem button routerLink="/inicioSesion" routerDirection="none">
+                  <IonIcon slot="start" icon={personCircle} />
+                  <IonLabel>Iniciar sesión</IonLabel>
                 </IonItem>
               </IonMenuToggle>
             </IonList>

@@ -9,7 +9,7 @@ const Rodar: React.FC = () => {
             <IonButtons slot="start">
               <IonMenuButton />
             </IonButtons>
-            <IonTitle>Rodar</IonTitle>
+            <IonTitle>Biklas</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent>
