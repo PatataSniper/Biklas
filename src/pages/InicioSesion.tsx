@@ -16,6 +16,7 @@ import {
   IonToolbar,
   IonToast,
 } from "@ionic/react";
+import { loginUser, logout, useAuthDispatch, useAuthState } from "../context/index";
 import { llamadaAjax } from "../bk-utils";
 
 const InicioSesion: React.FC = () => {
@@ -23,38 +24,64 @@ const InicioSesion: React.FC = () => {
   const usuarioInputRef = useRef<HTMLIonInputElement>(null);
   const contraInputRef = useRef<HTMLIonInputElement>(null);
 
-  // Hooks relacionados a elemento 'toast', configuramos el tipo de dato del texto como <string | unknown>
-  // ya que no podemos especificar el tipo de dato en el parámetro del catch (de la estructura try-catch)
+  // Hooks relacionados a elemento 'toast', configuramos el tipo de dato del texto como <any>
+  // ya que no podemos especificar el tipo de dato en el parámetro del catch (de la estructura try-catch),
+  // sin embargo, siempre deberá ser string
   const [mostrarToast, setMostrarToast] = useState(false);
-  const [textoToast, setTextoToast] = useState<string | unknown>('');
+  const [textoToast, setTextoToast] = useState<any>("");
 
+  // Obtenemos el método 'dispatch'
+  const dispatch = useAuthDispatch();
+
+  // Obtenemos mensaje de error y estado de cargado desde contexto
+  const { loading, errorMessage } = useAuthState();
+
+  /**
+   * Manejador. Valida información de inicio de sesión. Muestra
+   * errores ocurridos en elemento 'toast'. Almacena información
+   * de usuario tras inicio de sesión exitoso (credenciales y
+   * token de autenticación)
+   */
   const onIniciarSesion = () => {
-    try{
-        // Enviamos credenciales ingresadas por usuario a función de inicio de sesión
-        let params = {
-          identificador: usuarioInputRef.current!.value,
-          contra: contraInputRef.current!.value,
-        };
-    
-        llamadaAjax("Usuarios", "IniciarSesion", params)
-          .then((result) => {
-            // Éxito en confirmación de credenciales
-            console.log(result.usr);
-          })
-          .catch(err => {
-            if (err) {
-              // Error que mostraremos al usuario, lo lanzamos para encausarlo con errores
-              // de interacción usuario/interfaz (como campos faltantes o con información inválida)
-              throw err;
-            }
-          });
-    }
-    catch(err) {
-      // Mostrar el mensaje de error al usuario utilizando un elemento 'toast'
+    try {
+      // Enviamos credenciales ingresadas por usuario a función
+      // de inicio de sesión
+      let params = {
+        identificador: usuarioInputRef.current!.value,
+        contra: contraInputRef.current!.value,
+      };
+
+      if (!params.identificador || !params.contra) {
+        // Ambos datos son obligatorios
+        throw "Especifique nombre de usuario y contraseña";
+      }
+
+      loginUser(dispatch, params)
+        .then((data) => {
+          // Éxito en el inicio de sesión
+          console.log(data);
+        })
+        .catch((err) => {
+          // Error en el inicio de sesión
+          if (err) {
+            // Error. Lo mostramos al usuario, debería encausarse con errores de interacción
+            // usuario/interfaz (como campos faltantes o con información inválida) sin
+            // embargo no se encausa ya que este error ocurre en un proceso asíncrono
+            setTextoToast(err);
+            setMostrarToast(true);
+          }
+        });
+    } catch (err) {
       setTextoToast(err);
       setMostrarToast(true);
     }
   };
+
+  const onCerrarSesion = () => {
+    logout(dispatch);
+    setTextoToast("Se ha cerrado la sesión");
+    setMostrarToast(true);
+  }
 
   return (
     <IonPage>
@@ -98,6 +125,7 @@ const InicioSesion: React.FC = () => {
                 expand="block"
                 color="primary"
                 onClick={onIniciarSesion}
+                disabled={loading}
               >
                 Iniciar sesión
               </IonButton>
@@ -105,6 +133,17 @@ const InicioSesion: React.FC = () => {
             <IonCol>
               <IonButton expand="block" color="danger">
                 Cancelar
+              </IonButton>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol>
+              <IonButton
+                expand="block"
+                color="primary"
+                onClick={onCerrarSesion}
+              >
+                Cerrar sesión
               </IonButton>
             </IonCol>
           </IonRow>

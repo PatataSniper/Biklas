@@ -1,6 +1,6 @@
 // Biklas (2021)
 // Utilidades en javascript
-import { ClientConfig } from "./client-config";
+import { ClientConfig } from "./config/client-config";
 
 /**
  * Realiza una llamada AJAX a la ruta especificada. Utilice las opciones de inicio para configurar los
@@ -27,7 +27,7 @@ export function llamadaAjax(controlador, funcion, params, initOptions = null) {
  * @param {URL} url Objeto URL involucrado en la petición
  * @param {object} params Parametros involucrados en la petición (se agregarán como parámetros a la URL).
  * La llave de cada entrada deberá ser el nombre del parámetro, el valor de cada entrada deberá ser el 
- * valor del parámetro
+ * valor del parámetro. Evitar mandar información sensible mediante este método.
  * @param {object} initOptions Objeto de configuración de inicio de la función 'fetch' interna. 
  * https://javascript.info/fetch
  * @returns Promesa de resolución de llamada
@@ -105,13 +105,11 @@ function __prepararInitOptions(initOptions) {
  * parámetro, el valor de cada entrada deberá ser el valor del parámetro
  */
 function __asignarParamsAURL(url, params) {
-    if (!params) {
-        return;
-    }
-
-    for (const paramName of Object.keys(params)) {
-        // Agregamos el parámetro a la URL
-        url.searchParams.append(paramName, params[paramName]);
+    if (params) {
+        for (const paramName of Object.keys(params)) {
+            // Agregamos el parámetro a la URL
+            url.searchParams.append(paramName, params[paramName]);
+        }
     }
 
     return url;
