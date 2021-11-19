@@ -1,25 +1,18 @@
 import React from "react"
 
-import AmigosContext from "../data/amigos-context"
+import { AmigosContext } from "../data/amigos-context"
 
 const AmigosContextProvider: React.FC<{children:  {}}> = (props) => {
     var nuevoId = 1;
     const amigos = [
+      
       {
-        id: nuevoId++,
-        nombre: "Ricardo",
-        apellidos: "Orozco Aceves",
-        contraseña: "123",
-        kmRecorridos: 89.4,
+        id: 0,
+        nombre: "Prueba",
+        apellidos: "Prueba",
+        kmRecorridos: 0,
         fechaNacimiento: new Date(1997, 7, 4),
-      },
-      {
-        id: nuevoId++,
-        nombre: "Carlos Salvador",
-        apellidos: "Arias Sánchez",
-        contraseña: "321",
-        kmRecorridos: 1640,
-        fechaNacimiento: new Date(1996, 4, 16),
+        amigosDesde: new Date(1997, 7,4)
       }
     ];
 
@@ -34,6 +27,7 @@ const AmigosContextProvider: React.FC<{children:  {}}> = (props) => {
           enviarSolicitudAmigo,
           enviarMensaje,
           eliminarAmigo,
+          estaCargando: false
         }}
       >
         {props.children}

@@ -1,5 +1,8 @@
 import React from "react"
 
+/**
+ * Interface for modeling a user object
+ */
 export interface usuario {
     id: number,
     nombre: string,
