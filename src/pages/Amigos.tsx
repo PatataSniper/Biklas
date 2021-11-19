@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef, useContext } from "react";
 
 import {
   IonAlert,
@@ -17,46 +17,77 @@ import {
   IonToolbar,
   isPlatform,
 } from "@ionic/react";
-import { personAdd } from 'ionicons/icons';
-import AmigosContext from '../data/amigos-context';
-import ModalBuscarPersona from '../components/ModalBuscarPersona';
-import AmigoItem from '../components/AmigoItem';
+import { person, personAdd } from "ionicons/icons";
+import { AmigosContext } from "../data/amigos-context";
+import ModalBuscarPersona from "../components/ModalBuscarPersona";
+import AmigoItem from "../components/AmigoItem";
+import { llamadaAjax } from "../bk-utils";
+import { AMIGOS_CONTROLLER, USUARIOS_CONTROLLER } from "../bk-constantes";
+import { useAuthState } from "../context";
 
-const Amigos: React.FC = () =>{
+const Amigos: React.FC = () => {
   const DURACION_TOAST = 3000;
 
   const amigosCtx = useContext(AmigosContext);
-  
+  const userDetails = useAuthState();
+
   const [estadoIniElim, setIniciarEliminacion] = useState(false);
-  const [msjToast, setMsjToast] = useState('');
+  const [msjToast, setMsjToast] = useState("");
   const [estaBuscando, setEstaBuscando] = useState(false);
-  
+
   const opcionesDeslizablesRef = useRef<HTMLIonItemSlidingElement>(null);
 
   const iniciarEliminacionAmigoHandler = () => {
-    setMsjToast('');
+    setMsjToast("");
     setIniciarEliminacion(true);
-  }
-  
+  };
+
   const eliminarAmigoHandler = () => {
     setIniciarEliminacion(false);
-    setMsjToast('Amigo eliminado con éxito...')
-  }
-  
+    setMsjToast("Amigo eliminado con éxito...");
+  };
+
   const abrirChatHandler = () => {
-    console.log("Enviando mensaje a amigo...")
-    
+    console.log("Enviando mensaje a amigo...");
+
     // Cerrar elemento seleccionado
     opcionesDeslizablesRef.current?.closeOpened();
-  }
-  
+  };
+
   const buscarPersonaHandler = () => {
     setEstaBuscando(true);
-  }
+  };
 
   const cancelarBusquedaHandler = () => {
     setEstaBuscando(false);
-  }
+  };
+
+  const obtenerAmigosCtx = () => {
+    try {
+      // Getting the user data from the authentication context
+      let idUsuario = userDetails?.user?.IdUsuario ?? null;
+
+      if (!idUsuario) {
+        // Falsy value for the user id, we abort the process
+        throw "Id usuario no válido";
+      }
+
+      let params = {
+        idUsuario
+      };
+
+      // Making an AJAX call to fetch the friends related to this user
+      llamadaAjax(AMIGOS_CONTROLLER, "ObtenerAmigosRelacionados", params)
+      .then(result => {
+        // Assign result to the friends context
+        amigosCtx.amigos = result;
+      });
+    } catch (ex) {
+      console.error(ex);
+    }
+  };
+
+  obtenerAmigosCtx();
 
   return (
     <React.Fragment>
@@ -96,20 +127,19 @@ const Amigos: React.FC = () =>{
               <IonMenuButton />
             </IonButtons>
             <IonTitle>Amigos</IonTitle>
-            {!isPlatform("android") && (
-              <IonButtons slot="end">
-                <IonButton onClick={buscarPersonaHandler}>
-                  <IonIcon slot="icon-only" icon={personAdd} />
-                </IonButton>
-              </IonButtons>
-            )}
+            <IonButtons slot="primary">
+              <IonButton>
+                <IonIcon slot="icon-only" icon={person} />
+              </IonButton>
+            </IonButtons>
           </IonToolbar>
         </IonHeader>
         <IonContent>
           {amigosCtx.amigos && (
             <IonList>
               {amigosCtx.amigos.map((amigo) => (
-                <AmigoItem key={amigo.id}
+                <AmigoItem
+                  key={amigo.id}
                   opcionesRef={opcionesDeslizablesRef}
                   onIniciarEliminacion={iniciarEliminacionAmigoHandler}
                   onAbrirChat={abrirChatHandler}

@@ -9,13 +9,13 @@ import {
  } from "@ionic/react";
 
 import { trash, mail } from "ionicons/icons";
-import { usuario } from '../data/usuarios-context';
+import { amigo } from '../data/amigos-context';
 
 const AmigoItem: React.FC<{
   opcionesRef: React.Ref<HTMLIonItemSlidingElement>,
   onIniciarEliminacion: () => void,
   onAbrirChat: () => void,
-  amigo: usuario
+  amigo: amigo
 }> = (props) => {
   return (
     <IonItemSliding ref={props.opcionesRef}>
