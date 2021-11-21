@@ -17,14 +17,13 @@ import {
   IonToast,
 } from "@ionic/react";
 import { loginUser, logout, useAuthDispatch, useAuthState } from "../context/index";
-import { llamadaAjax } from "../bk-utils";
 
 const InicioSesion: React.FC = () => {
   // Referencias a elementos
   const usuarioInputRef = useRef<HTMLIonInputElement>(null);
   const contraInputRef = useRef<HTMLIonInputElement>(null);
 
-  // Hooks relacionados a elemento 'toast', configuramos el tipo de dato del texto como <any>
+  // Hooks relacionados a elemento 'toast', configuramos el tipo de dato del texto como 'any'
   // ya que no podemos especificar el tipo de dato en el parámetro del catch (de la estructura try-catch),
   // sin embargo, siempre deberá ser string
   const [mostrarToast, setMostrarToast] = useState(false);

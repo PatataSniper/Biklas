@@ -22,7 +22,7 @@ import { AmigosContext } from "../data/amigos-context";
 import ModalBuscarPersona from "../components/ModalBuscarPersona";
 import AmigoItem from "../components/AmigoItem";
 import { llamadaAjax } from "../bk-utils";
-import { AMIGOS_CONTROLLER, USUARIOS_CONTROLLER } from "../bk-constantes";
+import { AMIGOS_CONTROLLER } from "../bk-constantes";
 import { useAuthState } from "../context";
 
 const Amigos: React.FC = () => {
@@ -38,11 +38,13 @@ const Amigos: React.FC = () => {
   const opcionesDeslizablesRef = useRef<HTMLIonItemSlidingElement>(null);
 
   const iniciarEliminacionAmigoHandler = () => {
+    // Display confirmation element for deleting a friend
     setMsjToast("");
     setIniciarEliminacion(true);
   };
 
   const eliminarAmigoHandler = () => {
+    // User confirmed a friend's deletion
     setIniciarEliminacion(false);
     setMsjToast("Amigo eliminado con éxito...");
   };
@@ -55,14 +57,16 @@ const Amigos: React.FC = () => {
   };
 
   const buscarPersonaHandler = () => {
+    // Start the search of users
     setEstaBuscando(true);
   };
 
   const cancelarBusquedaHandler = () => {
+    // Cancel the search of users
     setEstaBuscando(false);
   };
 
-  const obtenerAmigosCtx = () => {
+  const obtenerAmigos = () => {
     try {
       // Getting the user data from the authentication context
       let idUsuario = userDetails?.user?.IdUsuario ?? null;
@@ -79,7 +83,7 @@ const Amigos: React.FC = () => {
       // Making an AJAX call to fetch the friends related to this user
       llamadaAjax(AMIGOS_CONTROLLER, "ObtenerAmigosRelacionados", params)
       .then(result => {
-        // Assign result to the friends context
+        // Update the state of the friends context
         amigosCtx.amigos = result;
       });
     } catch (ex) {
@@ -87,7 +91,7 @@ const Amigos: React.FC = () => {
     }
   };
 
-  obtenerAmigosCtx();
+  obtenerAmigos();
 
   return (
     <React.Fragment>
