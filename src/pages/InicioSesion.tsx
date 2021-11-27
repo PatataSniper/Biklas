@@ -16,7 +16,12 @@ import {
   IonToolbar,
   IonToast,
 } from "@ionic/react";
-import { loginUser, logout, useAuthDispatch, useAuthState } from "../context/index";
+import {
+  loginUser,
+  logout,
+  AuthDispatchContext,
+  AuthStateContext,
+} from "../context/index";
 
 const InicioSesion: React.FC = () => {
   // Referencias a elementos
@@ -30,10 +35,10 @@ const InicioSesion: React.FC = () => {
   const [textoToast, setTextoToast] = useState<any>("");
 
   // Obtenemos el método 'dispatch'
-  const dispatch = useAuthDispatch();
+  const dispatch = React.useContext(AuthDispatchContext);
 
   // Obtenemos mensaje de error y estado de cargado desde contexto
-  const { loading, errorMessage } = useAuthState();
+  const { loading, errorMessage } = React.useContext(AuthStateContext);
 
   /**
    * Manejador. Valida información de inicio de sesión. Muestra
@@ -80,7 +85,7 @@ const InicioSesion: React.FC = () => {
     logout(dispatch);
     setTextoToast("Se ha cerrado la sesión");
     setMostrarToast(true);
-  }
+  };
 
   return (
     <IonPage>

@@ -1,40 +1,34 @@
 // Biklas (2021)
 
-// Estructura obtenida de:
-// https://soshace.com/react-user-login-authentication-using-usecontext-and-usereducer/
+import React, { useReducer } from "react";
+import { initialState, AuthReducer } from "./reducer";
 
-import React, {useReducer} from "react";
-import {initialState, AuthReducer} from "./reducer"
-
-const AuthStateContext = React.createContext();
-const AuthDispatchContext = React.createContext();
-
-export function useAuthState() {
-    const context = React.useContext(AuthStateContext);
-    if (context === undefined) {
-        throw new Error("useAuthState debe usarse dentro de un AuthProvider");
-    }
-
-    return context;
-}
-
-export function useAuthDispatch() {
-    const context = React.useContext(AuthDispatchContext);
-    if (context === undefined) {
-        throw new Error("useAuthDispatch debe usarse dentro de un AuthProvider");
-    }
-
-    return context;
-}
+export const AuthStateContext = React.createContext();
+export const AuthDispatchContext = React.createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [user, dispatch] = useReducer(AuthReducer, initialState);
-   
-    return (
-      <AuthStateContext.Provider value={user}>
-        <AuthDispatchContext.Provider value={dispatch}>
-          {children}
-        </AuthDispatchContext.Provider>
-      </AuthStateContext.Provider>
-    );
-  };
+  const [user, dispatch] = useReducer(AuthReducer, initialState);
+
+  return (
+    <AuthStateContext.Provider value={user}>
+      <AuthDispatchContext.Provider value={dispatch}>
+        {children}
+      </AuthDispatchContext.Provider>
+    </AuthStateContext.Provider>
+  );
+};
+
+// Alternative way for using context...
+// Got from:
+// https://soshace.com/react-user-login-authentication-using-usecontext-and-usereducer/
+// Change: We changed the name from 'useAuthState' to 'useAuthContext', this was
+// because, with the first name, it seemed like we were using the react method 'useState'
+// when in fact we are using the method 'useContext'
+// export function useAuthContext() {
+//   const context = React.useContext(AuthStateContext);
+//   if (context === undefined) {
+//     throw new Error("useAuthContext debe usarse dentro de un AuthProvider");
+//   }
+
+//   return context;
+// }

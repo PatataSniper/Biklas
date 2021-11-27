@@ -1,6 +1,12 @@
 // Biklas (2021)
 
-import { loginUser, logout } from './actions';
-import { AuthProvider, useAuthDispatch, useAuthState } from './context';
- 
-export { AuthProvider, useAuthState, useAuthDispatch, loginUser, logout };
+import { loginUser, logout } from "./actions";
+import { AuthProvider, AuthDispatchContext, AuthStateContext } from "./context";
+
+export {
+  AuthProvider,
+  AuthDispatchContext,
+  AuthStateContext,
+  loginUser,
+  logout,
+};

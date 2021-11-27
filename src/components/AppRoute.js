@@ -1,23 +1,25 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Redirect, Route } from "react-router-dom";
-import { useAuthState } from "../context";
+import { AuthStateContext } from "../context";
 
-export const AppRoute = ({ component: Component, path, isPrivate, ...rest }) => {
- 
-  const userDetails = useAuthState()
+export const AppRoute = ({
+  component: Component,
+  path,
+  isPrivate,
+  ...rest
+}) => {
+  const userDetails = useContext(AuthStateContext);
   return (
-      <Route
-          path={path}
-          render={props =>
-              isPrivate && !Boolean(userDetails.token) ? (
-                  <Redirect
-                      to={{ pathname: "/inicioSesion" }}
-                  />
-              ) : (
-                      <Component {...props} />
-                  )
-          }
-          {...rest}
-      />
-  )
-}
+    <Route
+      path={path}
+      render={(props) =>
+        isPrivate && !Boolean(userDetails.token) ? (
+          <Redirect to={{ pathname: "/inicioSesion" }} />
+        ) : (
+          <Component {...props} />
+        )
+      }
+      {...rest}
+    />
+  );
+};
