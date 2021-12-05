@@ -7,7 +7,7 @@ import { llamadaAjax } from "../bk-utils";
 // De la misma manera que con redux, todas las funciones asíncronas que 
 // cambian/modifican un estado son llamadas acciones
 
-export function loginUser(dispatch, loginPayload) {
+export function loginUser(dispatch: any, loginPayload: any) {
     // Devolvemos una promesa, observese que la función 'llamadaAjax' ya devuelve
     // una promesa la cual manejamos. Sin embargo es necesario devolver una segunda
     // promesa para aislar el manejo de errores exclusivos del proceso de inicio
@@ -54,7 +54,7 @@ export function loginUser(dispatch, loginPayload) {
     });
 }
 
-export async function logout(dispatch) {
+export async function logout(dispatch: any) {
     dispatch({ type: 'LOGOUT' });
     localStorage.removeItem('currentUser');
     localStorage.removeItem('token');

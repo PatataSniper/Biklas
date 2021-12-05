@@ -53,11 +53,7 @@ const App: React.FC = () => {
               <AppRoute component={Rodar} path="/rodar" isPrivate={true} />
               <AppRoute component={Ruta} path="/rutas/:id" isPrivate={true} />
               <AppRoute component={Rutas} path="/rutas" isPrivate={true} />
-              <AppRoute
-                component={Amigos}
-                path="/amigos"
-                isPrivate={true}
-              />
+              <AppRoute component={Amigos} path="/amigos" isPrivate={true} />
               <AppRoute
                 component={InicioSesion}
                 path="/inicioSesion"

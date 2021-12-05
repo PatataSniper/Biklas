@@ -34,11 +34,11 @@ const InicioSesion: React.FC = () => {
   const [mostrarToast, setMostrarToast] = useState(false);
   const [textoToast, setTextoToast] = useState<any>("");
 
-  // Obtenemos el método 'dispatch'
+  // Obtenemos el método 'dispatch' de autorización desde el provider mas cercano
   const dispatch = React.useContext(AuthDispatchContext);
 
-  // Obtenemos mensaje de error y estado de cargado desde contexto
-  const { loading, errorMessage } = React.useContext(AuthStateContext);
+  // Obtenemos estado de autorización desde el provider context más cercano
+  let authState = React.useContext(AuthStateContext) as any;
 
   /**
    * Manejador. Valida información de inicio de sesión. Muestra
@@ -129,7 +129,7 @@ const InicioSesion: React.FC = () => {
                 expand="block"
                 color="primary"
                 onClick={onIniciarSesion}
-                disabled={loading}
+                disabled={authState.loading}
               >
                 Iniciar sesión
               </IonButton>
