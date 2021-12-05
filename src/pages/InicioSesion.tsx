@@ -22,8 +22,9 @@ import {
   AuthDispatchContext,
   AuthStateContext,
 } from "../context/index";
+import { RUTA_PAGINA_PRINCIPAL } from "../bk-constantes";
 
-const InicioSesion: React.FC = () => {
+const InicioSesion: React.FC<{history: any}> = (props) => {
   // Referencias a elementos
   const usuarioInputRef = useRef<HTMLIonInputElement>(null);
   const contraInputRef = useRef<HTMLIonInputElement>(null);
@@ -57,13 +58,13 @@ const InicioSesion: React.FC = () => {
 
       if (!params.identificador || !params.contra) {
         // Ambos datos son obligatorios
-        throw "Especifique nombre de usuario y contraseña";
+        throw new Error("Especifique nombre de usuario y contraseña");
       }
 
       loginUser(dispatch, params)
-        .then((data) => {
-          // Éxito en el inicio de sesión
-          console.log(data);
+        .then(() => {
+          // Éxito en el inicio de sesión, redireccionamos a pantalla principal
+          props.history.push('/');
         })
         .catch((err) => {
           // Error en el inicio de sesión
@@ -76,6 +77,7 @@ const InicioSesion: React.FC = () => {
           }
         });
     } catch (err) {
+      // Estar al pendiente, fallará si no recibe un objeto de error válido
       setTextoToast(err);
       setMostrarToast(true);
     }

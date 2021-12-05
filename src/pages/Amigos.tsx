@@ -1,4 +1,4 @@
-import React, { useRef, Component } from "react";
+import React, { Component } from "react";
 
 import {
   IonAlert,
@@ -73,9 +73,9 @@ class Amigos extends Component {
       ) as amigo | undefined;
 
       if (!amigoAEliminar) {
-        throw (
+        throw new Error(
           "Error, no se encontró al amigo relacionado " +
-          `con id ${idAmigoAEliminar}`
+            `con id ${idAmigoAEliminar}`
         );
       }
 
@@ -130,7 +130,7 @@ class Amigos extends Component {
 
       if (!idUsuario) {
         // Falsy value for the user id, we abort the process
-        throw "Id usuario no válido";
+        throw new Error("Id usuario no válido");
       }
 
       let params = {

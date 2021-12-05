@@ -3,7 +3,7 @@ import React from "react";
 import { IonApp, IonRouterOutlet } from "@ionic/react";
 
 import { IonReactRouter } from "@ionic/react-router";
-import { Redirect, Route } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import Rodar from "./pages/Rodar";
 import Rutas from "./pages/Rutas";
 import MenuLateral from "./components/MenuLateral";
@@ -34,7 +34,6 @@ import "./theme/variables.css";
 import "./theme/theme.css";
 
 import RutasContextProvider from "./data/RutasContextProvider";
-import AmigosContextProvider from "./data/AmigosContextProvider";
 
 // Encontrar la manera de refactorizar rutas en aplicaciones programadas
 // con Ionic React

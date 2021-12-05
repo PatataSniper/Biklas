@@ -1,17 +1,12 @@
 import React from "react";
 import {
   IonMenu,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
   IonContent,
   IonList,
   IonMenuToggle,
   IonItem,
   IonIcon,
   IonLabel,
-  IonButtons,
-  IonButton,
 } from "@ionic/react";
 import { bicycle, mapSharp, person, personCircle } from "ionicons/icons";
 

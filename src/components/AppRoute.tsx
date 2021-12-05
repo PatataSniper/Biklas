@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { Redirect, Route } from "react-router-dom";
+import { Route } from "react-router-dom";
 import { AuthStateContext } from "../context";
 import InicioSesion from "../pages/InicioSesion";
 
@@ -10,7 +10,6 @@ export const AppRoute: React.FC<{
   props?: {};
 }> = (props) => {
   const userContex = useContext(AuthStateContext) as any;
-  console.log(userContex);
 
   /**
    * Nos indicará si el usuario tiene acceso a la ruta actual, ya sea
