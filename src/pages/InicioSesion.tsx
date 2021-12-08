@@ -24,7 +24,7 @@ import {
 } from "../context/index";
 import { RUTA_PAGINA_PRINCIPAL } from "../bk-constantes";
 
-const InicioSesion: React.FC<{history: any}> = (props) => {
+const InicioSesion: React.FC = (props) => {
   // Referencias a elementos
   const usuarioInputRef = useRef<HTMLIonInputElement>(null);
   const contraInputRef = useRef<HTMLIonInputElement>(null);
@@ -64,7 +64,7 @@ const InicioSesion: React.FC<{history: any}> = (props) => {
       loginUser(dispatch, params)
         .then(() => {
           // Éxito en el inicio de sesión, redireccionamos a pantalla principal
-          props.history.push('/');
+          // props.history.push(RUTA_PAGINA_PRINCIPAL);
         })
         .catch((err) => {
           // Error en el inicio de sesión
@@ -120,7 +120,7 @@ const InicioSesion: React.FC<{history: any}> = (props) => {
                 <IonInput
                   ref={contraInputRef}
                   id="contraseña-usuario"
-                  type="text"
+                  type="password"
                 />
               </IonItem>
             </IonCol>
