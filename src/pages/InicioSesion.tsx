@@ -16,9 +16,15 @@ import {
   IonToolbar,
   IonToast,
 } from "@ionic/react";
-import { loginUser, logout, useAuthDispatch, useAuthState } from "../context/index";
+import {
+  loginUser,
+  logout,
+  AuthDispatchContext,
+  AuthStateContext,
+} from "../context/index";
+import { RUTA_PAGINA_PRINCIPAL } from "../bk-constantes";
 
-const InicioSesion: React.FC = () => {
+const InicioSesion: React.FC = (props) => {
   // Referencias a elementos
   const usuarioInputRef = useRef<HTMLIonInputElement>(null);
   const contraInputRef = useRef<HTMLIonInputElement>(null);
@@ -29,11 +35,11 @@ const InicioSesion: React.FC = () => {
   const [mostrarToast, setMostrarToast] = useState(false);
   const [textoToast, setTextoToast] = useState<any>("");
 
-  // Obtenemos el método 'dispatch'
-  const dispatch = useAuthDispatch();
+  // Obtenemos el método 'dispatch' de autorización desde el provider mas cercano
+  const dispatch = React.useContext(AuthDispatchContext);
 
-  // Obtenemos mensaje de error y estado de cargado desde contexto
-  const { loading, errorMessage } = useAuthState();
+  // Obtenemos estado de autorización desde el provider context más cercano
+  let authState = React.useContext(AuthStateContext) as any;
 
   /**
    * Manejador. Valida información de inicio de sesión. Muestra
@@ -52,13 +58,13 @@ const InicioSesion: React.FC = () => {
 
       if (!params.identificador || !params.contra) {
         // Ambos datos son obligatorios
-        throw "Especifique nombre de usuario y contraseña";
+        throw new Error("Especifique nombre de usuario y contraseña");
       }
 
       loginUser(dispatch, params)
-        .then((data) => {
-          // Éxito en el inicio de sesión
-          console.log(data);
+        .then(() => {
+          // Éxito en el inicio de sesión, redireccionamos a pantalla principal
+          // props.history.push(RUTA_PAGINA_PRINCIPAL);
         })
         .catch((err) => {
           // Error en el inicio de sesión
@@ -71,6 +77,7 @@ const InicioSesion: React.FC = () => {
           }
         });
     } catch (err) {
+      // Estar al pendiente, fallará si no recibe un objeto de error válido
       setTextoToast(err);
       setMostrarToast(true);
     }
@@ -80,7 +87,7 @@ const InicioSesion: React.FC = () => {
     logout(dispatch);
     setTextoToast("Se ha cerrado la sesión");
     setMostrarToast(true);
-  }
+  };
 
   return (
     <IonPage>
@@ -113,7 +120,7 @@ const InicioSesion: React.FC = () => {
                 <IonInput
                   ref={contraInputRef}
                   id="contraseña-usuario"
-                  type="text"
+                  type="password"
                 />
               </IonItem>
             </IonCol>
@@ -124,7 +131,7 @@ const InicioSesion: React.FC = () => {
                 expand="block"
                 color="primary"
                 onClick={onIniciarSesion}
-                disabled={loading}
+                disabled={authState.loading}
               >
                 Iniciar sesión
               </IonButton>

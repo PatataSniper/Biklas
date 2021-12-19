@@ -4,20 +4,20 @@
 // https://soshace.com/react-user-login-authentication-using-usecontext-and-usereducer/
  
 let user = localStorage.getItem("currentUser")
-  ? JSON.parse(localStorage.getItem("currentUser")).user
+  ? JSON.parse(localStorage.getItem("currentUser")!).user
   : "";
 let token = localStorage.getItem("currentUser")
-  ? JSON.parse(localStorage.getItem("currentUser")).auth_token
+  ? JSON.parse(localStorage.getItem("currentUser")!).auth_token
   : "";
  
 export const initialState = {
-  userDetails: "" || user,
+  user: user ? user : {},
   token: "" || token,
   loading: false,
   errorMessage: null
 };
  
-export const AuthReducer = (initialState, action) => {
+export const AuthReducer = (initialState: object, action: any) => {
   switch (action.type) {
     case "REQUEST_LOGIN":
       return {
