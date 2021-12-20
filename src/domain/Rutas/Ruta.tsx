@@ -19,7 +19,7 @@ import
     IonTitle,
     IonToolbar
 } from '@ionic/react';
-import RutasContext from '../data/rutas-context';
+import RutasContext from '../../data/rutas-context';
 
 const Ruta: React.FC = () => {
     const idRuta = useParams<{id: string}>().id;

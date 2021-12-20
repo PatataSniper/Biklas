@@ -16,9 +16,9 @@ import {
   IonIcon,
 } from "@ionic/react";
 import { add, person } from "ionicons/icons";
-import ModalCrearRuta from "../components/ModalCrearRuta";
-import RutaItem from "../components/RutaItem";
-import RutasContext from "../data/rutas-context";
+import ModalCrearRuta from "./ModalCrearRuta";
+import RutaItem from "./RutaItem";
+import RutasContext from "../../data/rutas-context";
 
 const Rutas: React.FC = () => {
   const [estaCreando, setEstaCreando] = useState(false);

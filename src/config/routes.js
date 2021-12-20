@@ -1,7 +1,7 @@
-import InicioSesion from "../pages/InicioSesion"
-import Rodar from "../pages/Rodar"
-import Rutas from "../pages/Rutas"
-import Amigos from "../pages/Amigos"
+import InicioSesion from "../domain/InicioSesion/InicioSesion"
+import Rodar from "../domain/Inicio/Inicio"
+import Rutas from "../domain/Rutas/Rutas"
+import Amigos from "../domain/Amigos/Amigos"
 
 /*
     Estructura obtenida de:

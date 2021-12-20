@@ -18,12 +18,12 @@ import {
   isPlatform,
 } from "@ionic/react";
 import { person, personAdd } from "ionicons/icons";
-import { amigo } from "../data/amigos-context";
-import ModalBuscarPersona from "../components/ModalBuscarPersona";
-import AmigoItem from "../components/AmigoItem";
-import { llamadaAjax } from "../bk-utils";
-import { AMIGOS_CONTROLLER } from "../bk-constantes";
-import { AuthStateContext } from "../context";
+import { amigo } from "../../data/amigos-context";
+import ModalBuscarPersona from "./ModalBuscarPersona";
+import AmigoItem from "./AmigoItem";
+import { llamadaAjax } from "../../bk-utils";
+import { AMIGOS_CONTROLLER } from "../../bk-constantes";
+import { AuthStateContext } from "../../context";
 
 class Amigos extends Component {
   state = {

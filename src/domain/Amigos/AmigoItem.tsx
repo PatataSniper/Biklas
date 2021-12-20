@@ -9,7 +9,7 @@ import {
 } from "@ionic/react";
 
 import { trash, mail } from "ionicons/icons";
-import { amigo } from "../data/amigos-context";
+import { amigo } from "../../data/amigos-context";
 
 const AmigoItem: React.FC<{
   // Change: We are using this component inside a class component,
