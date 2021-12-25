@@ -5,11 +5,11 @@ import { AmigosContext } from "../data/amigos-context"
 const AmigosContextProvider: React.FC<{children:  {}}> = (props) => {
     var nuevoId = 1;
     const amigos = [
-      
       {
         id: 0,
         nombre: "Prueba",
         apellidos: "Prueba",
+        nombreUsuario: "prueba",
         kmRecorridos: 0,
         fechaNacimiento: new Date(1997, 7, 4),
         amigosDesde: new Date(1997, 7,4)

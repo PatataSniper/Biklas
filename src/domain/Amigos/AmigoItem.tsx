@@ -23,8 +23,9 @@ const AmigoItem: React.FC<{
     <IonItemSliding>
       <IonItem>
         <IonLabel>
-          <h2>{`${props.amigo.nombre} ${props.amigo.apellidos}`}</h2>
-          <h3>{`${props.amigo.kmRecorridos} km. recorridos`}</h3>
+          <h2>{props.amigo.nombreUsuario}</h2>
+          <h3>{`${props.amigo.nombre} ${props.amigo.apellidos}`}</h3>
+          <p>{`${props.amigo.kmRecorridos} km. recorridos`}</p>
         </IonLabel>
       </IonItem>
       <IonItemOptions side="start">
