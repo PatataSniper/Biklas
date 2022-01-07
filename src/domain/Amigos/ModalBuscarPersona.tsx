@@ -21,6 +21,7 @@ import {
   IonList,
 } from "@ionic/react";
 import BKDataContext from "../../data/BKDataContext";
+import Usuario from "../../components/Usuario";
 
 const estadoInicial = {
   buscando: false,
@@ -56,9 +57,11 @@ const buscarPersonaReductor = (
   }
 };
 
-const ModalBuscarPersona: React.FC<{ show: boolean; onCancel: () => void }> = (
-  props
-) => {
+const ModalBuscarPersona: React.FC<{
+  show: boolean;
+  idUsuario: number;
+  onCancel: () => void;
+}> = (props) => {
   const [estado, dispatch] = useReducer(buscarPersonaReductor, estadoInicial);
   const inputRef = useRef<HTMLIonInputElement>(null);
 
@@ -80,7 +83,16 @@ const ModalBuscarPersona: React.FC<{ show: boolean; onCancel: () => void }> = (
     const idTempo = setTimeout(async () => {
       // Una vez obtenidos los resultados, lanzamos acción para mostrar
       // los resultados al usuario.
-      const personas = await BKDataContext.Usuarios(null, estado.busqueda);
+      const idUsuario = props.idUsuario;
+      if (!idUsuario) {
+        // Sin id de usuario válido, abortamos el proceso
+        throw new Error("Id usuario no válido");
+      }
+
+      const personas = await BKDataContext.Usuarios(
+        props.idUsuario,
+        estado.busqueda
+      );
       dispatch({ tipo: "MOSTRAR_RESULTADOS", personas });
     }, 1000);
 
@@ -112,30 +124,50 @@ const ModalBuscarPersona: React.FC<{ show: boolean; onCancel: () => void }> = (
             </IonCol>
           </IonRow>
           {estado.buscando && (
+            // Realizando proceso de búsqueda, mostramos mensaje
+            // al usuario
             <IonRow>
               <IonCol>
-                <IonItem>
-                  <div>Buscando, por favor espere...</div>
-                </IonItem>
+                <IonLabel>
+                  <p>Buscando, por favor espere...</p>
+                </IonLabel>
               </IonCol>
             </IonRow>
           )}
-          {estado.personas.length && (
+          {estado.personas.length !== 0 && (
+            // Hay resultados. Mostramos lista al usuario
             <IonList lines="full">
               {estado.personas.map((p: any) => (
-                <IonItem key={p.IdUsuario}>
-                  <IonLabel>
-                    <h2>{p.NombreUsuario}</h2>
-                    <h3>{`${p.Nombre} ${p.Apellidos}`}</h3>
-                    <p>{p.KmRecorridos} km. recorridos</p>
-                  </IonLabel>
-                </IonItem>
+                <Usuario key={p.idUsuario} usuario={p}>
+                  {p.sonAmigos ? (
+                    <IonButton disabled fill="outline" color="success">
+                      Amigo
+                    </IonButton>
+                  ) : (
+                    <IonButton fill="outline" color="secondary">
+                      Agregar
+                    </IonButton>
+                  )}
+                </Usuario>
               ))}
             </IonList>
           )}
+          {!estado.personas.length && !estado.buscando && (
+            // No se está en proceso de búsqueda y sin embargo no hay
+            // resultados. Mostramos mensaje al usuario
+            <IonRow>
+              <IonCol>
+                <IonLabel>
+                  <p>No se han encontrado resultados</p>
+                </IonLabel>
+              </IonCol>
+            </IonRow>
+          )}
           <IonRow>
             <IonCol>
-              <IonButton onClick={props.onCancel}>Cancelar</IonButton>
+              <IonButton fill="clear" color="danger" onClick={props.onCancel}>
+                Cancelar
+              </IonButton>
             </IonCol>
           </IonRow>
         </IonGrid>

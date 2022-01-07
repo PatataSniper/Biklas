@@ -1,15 +1,36 @@
 import React from "react";
-import {
-  IonItemSliding,
-  IonItemOption,
-  IonIcon,
-  IonItemOptions,
-  IonItem,
-  IonLabel,
-} from "@ionic/react";
+import { IonItem, IonLabel, IonAvatar, IonButton, IonIcon, IonModal, IonContent, IonPopover, IonList } from "@ionic/react";
 
-import { trash, mail } from "ionicons/icons";
+import { ellipsisVerticalOutline } from "ionicons/icons";
 import { amigo } from "../../data/amigos-context";
+
+const estadoInicial = {
+  mostrarModal: false,
+  evento: undefined
+};
+
+const amigoItemReductor = (
+  estado: any,
+  accion: {
+    tipo: string;
+    evento?: any
+  }
+) => {
+  switch (accion.tipo) {
+    case "MOSTRAR_OPCIONES":
+      return {
+        ...estado,
+        mostrarOpciones: true,
+        evento: accion.evento
+      };
+      case "OCULTAR_OPCIONES":
+        return{
+          ...estado,
+          mostrarOpciones: false,
+          evento: undefined
+        }
+  }
+};
 
 const AmigoItem: React.FC<{
   // Change: We are using this component inside a class component,
@@ -19,26 +40,42 @@ const AmigoItem: React.FC<{
   onAbrirChat: () => void;
   amigo: amigo;
 }> = (props) => {
+  let [estado, dispatch] = React.useReducer(amigoItemReductor, estadoInicial);
+
+  const enMostrarOpciones = (e: any) => {
+    // Mostramos el modal de opciones modificando el estado del componente
+    e.persist();
+    dispatch({tipo: "MOSTRAR_OPCIONES", evento: e})
+  }
+
   return (
-    <IonItemSliding>
-      <IonItem>
-        <IonLabel>
-          <h2>{props.amigo.nombreUsuario}</h2>
-          <h3>{`${props.amigo.nombre} ${props.amigo.apellidos}`}</h3>
-          <p>{`${props.amigo.kmRecorridos} km. recorridos`}</p>
-        </IonLabel>
-      </IonItem>
-      <IonItemOptions side="start">
-        <IonItemOption color="danger" onClick={props.onIniciarEliminacion}>
-          <IonIcon slot="icon-only" icon={trash}></IonIcon>
-        </IonItemOption>
-      </IonItemOptions>
-      <IonItemOptions side="end">
-        <IonItemOption color="secondary" onClick={props.onAbrirChat}>
-          <IonIcon slot="icon-only" icon={mail}></IonIcon>
-        </IonItemOption>
-      </IonItemOptions>
-    </IonItemSliding>
+    <IonItem>
+      <IonAvatar>
+        <img src="https://media.istockphoto.com/photos/male-silhouette-as-avatar-profile-picture-picture-id519078721?k=6&m=519078721&s=612x612&w=0&h=N80uhQg1D7QpAgccoDxkFMRqrGsTfhf6KX1NRhsxWPw=" />
+      </IonAvatar>
+      <IonLabel>
+        <h2>{props.amigo.nombreUsuario}</h2>
+        <h3>{`${props.amigo.nombre} ${props.amigo.apellidos}`}</h3>
+        <p>{`${props.amigo.kmRecorridos} km. recorridos`}</p>
+      </IonLabel>
+      <IonIcon onClick={enMostrarOpciones} icon={ellipsisVerticalOutline}></IonIcon>
+      
+      <IonPopover
+        cssClass='my-custom-class'
+        event={estado.evento}
+        isOpen={estado.mostrarOpciones}
+        onDidDismiss={() => dispatch({ tipo: "OCULTAR_OPCIONES"})}
+      >
+        <IonList lines="full">
+          <IonItem onClick={props.onAbrirChat}>
+            Enviar mensaje
+          </IonItem>
+          <IonItem onClick={props.onIniciarEliminacion}>
+            Eliminar
+          </IonItem>
+        </IonList>
+      </IonPopover>
+    </IonItem>
   );
 };
 

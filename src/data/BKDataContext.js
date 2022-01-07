@@ -3,23 +3,23 @@ import {llamadaAjax} from "../bk-utils";
 
 class BKDataContext {
   /**
-   * Obtener la lista de usuarios dados de alta. Se puede especificar el id
+   * Obtiene la lista de usuarios dados de alta. Se puede especificar el id
    * del usuario que realiza la búsqueda, dicho usuario se excluirá de la 
    * lista resultante
    * @param {(number|null)} idUsuario El id del usuario que realiza la búsqueda
-   * @param {string} busqueda El texto de búsqueda de usuarios
+   * @param {string} textoBusqueda El texto de búsqueda de usuarios
    * @param {boolean} actualizar Indica si se deberán actualizar los datos
    * desde el servidor remoto o no. True por defecto
    * @returns {Array} Usuarios obtenidos del almacenamiento (remoto o local)
    */
-  static async Usuarios(idUsuario = null, busqueda = null, actualizar = true) {
+  static async Usuarios(idUsuario = null, textoBusqueda = null, actualizar = true) {
     let usuarios = [];
     if (actualizar) {
       // Se especifica la actualización, intentaremos obtener los datos
       // del servidor remoto
       const params = {
         idUsuario,
-        busqueda
+        textoBusqueda
       };
 
       await llamadaAjax(USUARIOS_CONTROLLER, null, params)

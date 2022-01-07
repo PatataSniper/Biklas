@@ -14,14 +14,15 @@ import {
   IonPage,
   IonTitle,
   IonToast,
-  IonToolbar
+  IonToolbar,
 } from "@ionic/react";
-import { person, personAdd } from "ionicons/icons";
+import { ellipsisVerticalOutline, person, personAdd } from "ionicons/icons";
 import { amigo } from "../../data/amigos-context";
 import ModalBuscarPersona from "./ModalBuscarPersona";
 import AmigoItem from "./AmigoItem";
 import { AuthStateContext } from "../../context";
 import BKDataContext from "../../data/BKDataContext";
+import Usuario from "../../components/Usuario";
 
 class Amigos extends Component {
   state = {
@@ -30,6 +31,10 @@ class Amigos extends Component {
     msjToast: "",
     estaBuscando: false,
     idAmigoAEliminar: null,
+
+    // Obtenemos el identificador del usuario del contexto
+    // de autenticación, lo asignamos al estado
+    idUsuario: this.context.user?.IdUsuario ?? null,
   };
 
   DURACION_TOAST = 3000;
@@ -41,7 +46,7 @@ class Amigos extends Component {
 
     if (!amigo) {
       throw new Error(
-        "Error, no se encontró al amigo relacionado " + `con id ${id}`
+        `Error, no se encontró al amigo relacionado con id ${id}`
       );
     }
 
@@ -119,10 +124,7 @@ class Amigos extends Component {
 
   obtenerAmigos = async () => {
     try {
-      // Getting the user data from the authentication context
-      let userDetails = this.context;
-      let idUsuario = userDetails?.user?.IdUsuario ?? null;
-
+      const { idUsuario } = this.state;
       if (!idUsuario) {
         // Falsy value for the user id, we abort the process
         throw new Error("Id usuario no válido");
@@ -143,6 +145,7 @@ class Amigos extends Component {
       <React.Fragment>
         <ModalBuscarPersona
           show={estaBuscando}
+          idUsuario={this.state.idUsuario}
           onCancel={this.cancelarBusquedaHandler}
         />
         <IonToast
@@ -195,7 +198,8 @@ class Amigos extends Component {
                     }}
                     onAbrirChat={this.abrirChatHandler}
                     amigo={a}
-                  />
+                  >
+                  </AmigoItem>
                 ))}
               </IonList>
             )}

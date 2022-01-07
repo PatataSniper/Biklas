@@ -5,9 +5,11 @@ import React from "react"
  */
 export interface usuario {
     id: number,
+    nombreUsuario: string,
     nombre: string,
     apellidos: string,
     contraseña: string,
     fechaNacimiento: Date,
-    kmRecorridos: number
+    kmRecorridos: number,
+    sonAmigos: boolean
 }
