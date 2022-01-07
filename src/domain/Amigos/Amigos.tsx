@@ -39,7 +39,7 @@ class Amigos extends Component {
 
   DURACION_TOAST = 3000;
 
-  private __obtenerAmigo(id: null) {
+  private __obtenerAmigo(id: number | null) {
     const amigo = this.state.amigos.find((a: amigo) => a.id === id) as
       | amigo
       | undefined;
