@@ -4,13 +4,13 @@ import { IonApp, IonRouterOutlet } from "@ionic/react";
 
 import { IonReactRouter } from "@ionic/react-router";
 import { Redirect } from "react-router-dom";
-import Rodar from "./pages/Rodar";
-import Rutas from "./pages/Rutas";
+import Rodar from "./domain/Inicio/Inicio";
+import Rutas from "./domain/Rutas/Rutas";
 import MenuLateral from "./components/MenuLateral";
-import Ruta from "./pages/Ruta";
-import Filtro from "./pages/Amigos";
-import Amigos from "./pages/Amigos";
-import InicioSesion from "./pages/InicioSesion";
+import Ruta from "./domain/Rutas/Ruta";
+import Filtro from "./domain/Amigos/Amigos";
+import Amigos from "./domain/Amigos/Amigos";
+import InicioSesion from "./domain/InicioSesion/InicioSesion";
 import { AppRoute } from "./components/AppRoute";
 
 /* Core CSS required for Ionic components to work properly */

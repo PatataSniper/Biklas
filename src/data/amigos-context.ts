@@ -9,6 +9,7 @@ import React from "react"
   id: number,
   nombre: string,
   apellidos: string,
+  nombreUsuario: string,
   fechaNacimiento: Date,
   kmRecorridos: number,
   amigosDesde: Date

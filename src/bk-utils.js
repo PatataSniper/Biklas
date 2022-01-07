@@ -17,8 +17,17 @@ import { ClientConfig } from "./config/client-config";
  */
 export function llamadaAjax(controlador, funcion, params, initOptions = null) {
   // Construimos un objeto 'URL' para usar como parámetro
+  let direccion = controlador;
+
+  if(funcion){
+    // Se especificó una función, se agrega a la dirección. 
+    // Nota: Una dirección puede NO tener función cuando se trata de la función
+    // por defecto de un controlador, por ejemplo 'api/usuarios'
+    direccion += `/${funcion}`;
+  }
+
   return llamadaAjaxAURL(
-    new URL(`${controlador}/${funcion}`, ClientConfig.URL_API_BASE),
+    new URL(direccion, ClientConfig.URL_API_BASE),
     params,
     initOptions
   );

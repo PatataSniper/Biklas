@@ -15,15 +15,14 @@ import {
   IonTitle,
   IonToast,
   IonToolbar,
-  isPlatform,
 } from "@ionic/react";
-import { person, personAdd } from "ionicons/icons";
-import { amigo } from "../data/amigos-context";
-import ModalBuscarPersona from "../components/ModalBuscarPersona";
-import AmigoItem from "../components/AmigoItem";
-import { llamadaAjax } from "../bk-utils";
-import { AMIGOS_CONTROLLER } from "../bk-constantes";
-import { AuthStateContext } from "../context";
+import { ellipsisVerticalOutline, person, personAdd } from "ionicons/icons";
+import { amigo } from "../../data/amigos-context";
+import ModalBuscarPersona from "./ModalBuscarPersona";
+import AmigoItem from "./AmigoItem";
+import { AuthStateContext } from "../../context";
+import BKDataContext from "../../data/BKDataContext";
+import Usuario from "../../components/Usuario";
 
 class Amigos extends Component {
   state = {
@@ -32,17 +31,27 @@ class Amigos extends Component {
     msjToast: "",
     estaBuscando: false,
     idAmigoAEliminar: null,
+
+    // Obtenemos el identificador del usuario del contexto
+    // de autenticación, lo asignamos al estado
+    idUsuario: this.context.user?.IdUsuario ?? null,
   };
 
   DURACION_TOAST = 3000;
 
-  // const amigosCtx = useContext(AmigosContext);
-  // const [estadoIniElim, setIniciarEliminacion] = useState(false);
-  // const [msjToast, setMsjToast] = useState("");
-  // const [estaBuscando, setEstaBuscando] = useState(false);
+  private __obtenerAmigo(id: number | null) {
+    const amigo = this.state.amigos.find((a: amigo) => a.id === id) as
+      | amigo
+      | undefined;
 
-  // Change: We cannot use hooks in class components
-  // opcionesDeslizablesRef = useRef<HTMLIonItemSlidingElement>(null);
+    if (!amigo) {
+      throw new Error(
+        `Error, no se encontró al amigo relacionado con id ${id}`
+      );
+    }
+
+    return amigo;
+  }
 
   iniciarEliminacionAmigoHandler = (idAmigo: number) => {
     // Set the specified friend as the friend to be deleted and
@@ -68,16 +77,7 @@ class Amigos extends Component {
       let { idAmigoAEliminar } = this.state;
 
       // Obtenemos al amigo a eliminar
-      const amigoAEliminar = this.state.amigos.find(
-        (a: amigo) => a.id === idAmigoAEliminar
-      ) as amigo | undefined;
-
-      if (!amigoAEliminar) {
-        throw new Error(
-          "Error, no se encontró al amigo relacionado " +
-            `con id ${idAmigoAEliminar}`
-        );
-      }
+      const amigoAEliminar = this.__obtenerAmigo(idAmigoAEliminar);
 
       // Creamos nuevo arreglo excluyendo al amigo eliminado
       const amigos = this.state.amigos.filter(
@@ -117,33 +117,22 @@ class Amigos extends Component {
   };
 
   componentDidMount = () => {
-    // We fetch the friends related to this user from the server
-    console.log("Obteniendo amigos del servidor");
+    // Obtenemos los amigos relacionados del contexto de datos.
+    // La obtención de datos se realiza de manera asíncrona.
     this.obtenerAmigos();
   };
 
-  obtenerAmigos = () => {
+  obtenerAmigos = async () => {
     try {
-      // Getting the user data from the authentication context
-      let userDetails = this.context;
-      let idUsuario = userDetails?.user?.IdUsuario ?? null;
-
+      const { idUsuario } = this.state;
       if (!idUsuario) {
         // Falsy value for the user id, we abort the process
         throw new Error("Id usuario no válido");
       }
 
-      let params = {
-        idUsuario,
-      };
-
-      // Making an AJAX call to fetch the friends related to this user
-      llamadaAjax(AMIGOS_CONTROLLER, "ObtenerAmigosRelacionados", params).then(
-        (result) => {
-          // Update the state of the friends context
-          this.setState({ amigos: result });
-        }
-      );
+      // Esperamos la respuesta del contexto de datos y
+      // actualizamos el contexto local
+      this.setState({ amigos: await BKDataContext.Amigos(idUsuario) });
     } catch (ex) {
       console.error(ex);
     }
@@ -156,6 +145,7 @@ class Amigos extends Component {
       <React.Fragment>
         <ModalBuscarPersona
           show={estaBuscando}
+          idUsuario={this.state.idUsuario}
           onCancel={this.cancelarBusquedaHandler}
         />
         <IonToast
@@ -199,7 +189,7 @@ class Amigos extends Component {
           </IonHeader>
           <IonContent>
             {amigos && (
-              <IonList>
+              <IonList lines="full">
                 {amigos.map((a: amigo) => (
                   <AmigoItem
                     key={a.id}
@@ -208,23 +198,23 @@ class Amigos extends Component {
                     }}
                     onAbrirChat={this.abrirChatHandler}
                     amigo={a}
-                  />
+                  >
+                  </AmigoItem>
                 ))}
               </IonList>
             )}
-            {isPlatform("android") && (
-              <IonFab horizontal="end" vertical="bottom" slot="fixed">
-                <IonFabButton color="light" onClick={this.buscarPersonaHandler}>
-                  <IonIcon icon={personAdd}></IonIcon>
-                </IonFabButton>
-              </IonFab>
-            )}
+            <IonFab horizontal="end" vertical="bottom" slot="fixed">
+              <IonFabButton color="light" onClick={this.buscarPersonaHandler}>
+                <IonIcon icon={personAdd}></IonIcon>
+              </IonFabButton>
+            </IonFab>
           </IonContent>
         </IonPage>
       </React.Fragment>
     );
   }
 }
+
 Amigos.contextType = AuthStateContext;
 
 export default Amigos;

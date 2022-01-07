@@ -21,8 +21,8 @@ import {
   logout,
   AuthDispatchContext,
   AuthStateContext,
-} from "../context/index";
-import { RUTA_PAGINA_PRINCIPAL } from "../bk-constantes";
+} from "../../context/index";
+import { RUTA_PAGINA_PRINCIPAL } from "../../bk-constantes";
 
 const InicioSesion: React.FC = (props) => {
   // Referencias a elementos
