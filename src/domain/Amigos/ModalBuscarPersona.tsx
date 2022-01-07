@@ -30,7 +30,7 @@ const estadoInicial = {
 };
 
 const buscarPersonaReductor = (
-  estado: any,
+  state: any,
   accion: {
     tipo: string;
     personas?: any[];
@@ -40,18 +40,18 @@ const buscarPersonaReductor = (
   switch (accion.tipo) {
     case "REALIZAR_BUSQUEDA":
       return {
-        ...estado,
+        ...state,
         buscando: true,
       };
     case "MOSTRAR_RESULTADOS":
       return {
-        ...estado,
+        ...state,
         buscando: false,
         personas: accion.personas,
       };
     case "MODIFICAR_BUSQUEDA":
       return {
-        ...estado,
+        ...state,
         busqueda: accion.busqueda,
       };
   }
@@ -62,7 +62,7 @@ const ModalBuscarPersona: React.FC<{
   idUsuario: number;
   onCancel: () => void;
 }> = (props) => {
-  const [estado, dispatch] = useReducer(buscarPersonaReductor, estadoInicial);
+  const [state, dispatch] = useReducer(buscarPersonaReductor, estadoInicial);
   const inputRef = useRef<HTMLIonInputElement>(null);
 
   const onInputbusqueda = () => {
@@ -91,7 +91,7 @@ const ModalBuscarPersona: React.FC<{
 
       const personas = await BKDataContext.Usuarios(
         props.idUsuario,
-        estado.busqueda
+        state.busqueda
       );
       dispatch({ tipo: "MOSTRAR_RESULTADOS", personas });
     }, 1000);
@@ -100,7 +100,7 @@ const ModalBuscarPersona: React.FC<{
       // Función de limpieza
       clearTimeout(idTempo);
     };
-  }, [estado.busqueda]);
+  }, [state.busqueda]);
 
   return (
     <IonModal isOpen={props.show}>
@@ -123,7 +123,7 @@ const ModalBuscarPersona: React.FC<{
               </IonItem>
             </IonCol>
           </IonRow>
-          {estado.buscando && (
+          {state.buscando && (
             // Realizando proceso de búsqueda, mostramos mensaje
             // al usuario
             <IonRow>
@@ -134,10 +134,10 @@ const ModalBuscarPersona: React.FC<{
               </IonCol>
             </IonRow>
           )}
-          {estado.personas.length !== 0 && (
+          {state.personas.length !== 0 && (
             // Hay resultados. Mostramos lista al usuario
             <IonList lines="full">
-              {estado.personas.map((p: any) => (
+              {state.personas.map((p: any) => (
                 <Usuario key={p.idUsuario} usuario={p}>
                   {p.sonAmigos ? (
                     <IonButton disabled fill="outline" color="success">
@@ -152,7 +152,7 @@ const ModalBuscarPersona: React.FC<{
               ))}
             </IonList>
           )}
-          {!estado.personas.length && !estado.buscando && (
+          {!state.personas.length && !state.buscando && (
             // No se está en proceso de búsqueda y sin embargo no hay
             // resultados. Mostramos mensaje al usuario
             <IonRow>

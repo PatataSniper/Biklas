@@ -1,20 +1,10 @@
 import React from "react"
 
-import { AmigosContext } from "../data/amigos-context"
+import { amigo, AmigosContext } from "../data/amigos-context"
 
+// Todo: ¿En donde se utiliza 'AmigosContextProvider'?
 const AmigosContextProvider: React.FC<{children:  {}}> = (props) => {
-    var nuevoId = 1;
-    const amigos = [
-      {
-        id: 0,
-        nombre: "Prueba",
-        apellidos: "Prueba",
-        nombreUsuario: "prueba",
-        kmRecorridos: 0,
-        fechaNacimiento: new Date(1997, 7, 4),
-        amigosDesde: new Date(1997, 7,4)
-      }
-    ];
+    const amigos: amigo[] = [];
 
     const enviarSolicitudAmigo = () => {};
     const enviarMensaje = () => {};
