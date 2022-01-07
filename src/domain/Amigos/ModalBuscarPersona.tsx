@@ -1,5 +1,4 @@
 import React, {
-  InputHTMLAttributes,
   useEffect,
   useReducer,
   useRef,
@@ -100,7 +99,12 @@ const ModalBuscarPersona: React.FC<{
       // Función de limpieza
       clearTimeout(idTempo);
     };
-  }, [state.busqueda]);
+
+    // Al arreglo de dependencias agregamos el id del usuario almacenado
+    // en las propiedades del componente, ya que typescript nos lo exije 
+    // como parte de la regla 'exhaustive-deps' (React hook has a missing
+    // dependency). 
+  }, [state.busqueda, props.idUsuario]);
 
   return (
     <IonModal isOpen={props.show}>

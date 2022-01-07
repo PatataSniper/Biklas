@@ -1,6 +1,6 @@
 // Biklas (2021)
 
-import { llamadaAjax } from "../bk-utils";
+import { llamadaAjax } from "../../bk-utils";
 
 // Estructura obtenida de:
 // https://soshace.com/react-user-login-authentication-using-usecontext-and-usereducer/

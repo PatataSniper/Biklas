@@ -16,13 +16,12 @@ import {
   IonToast,
   IonToolbar,
 } from "@ionic/react";
-import { ellipsisVerticalOutline, person, personAdd } from "ionicons/icons";
+import { person, personAdd } from "ionicons/icons";
 import { amigo } from "../../data/amigos-context";
 import ModalBuscarPersona from "./ModalBuscarPersona";
 import AmigoItem from "./AmigoItem";
-import { AuthStateContext } from "../../context";
+import { AuthContext } from "../../context/authContext";
 import BKDataContext from "../../data/BKDataContext";
-import Usuario from "../../components/Usuario";
 
 class Amigos extends Component {
   state = {
@@ -34,7 +33,7 @@ class Amigos extends Component {
 
     // Obtenemos el identificador del usuario del contexto
     // de autenticación, lo asignamos al estado
-    idUsuario: this.context.user?.IdUsuario ?? null,
+    idUsuario: this.context.authState.user?.IdUsuario ?? null,
   };
 
   DURACION_TOAST = 3000;
@@ -215,6 +214,6 @@ class Amigos extends Component {
   }
 }
 
-Amigos.contextType = AuthStateContext;
+Amigos.contextType = AuthContext;
 
 export default Amigos;

@@ -16,13 +16,12 @@ import {
   IonToolbar,
   IonToast,
 } from "@ionic/react";
+
 import {
   loginUser,
   logout,
-  AuthDispatchContext,
-  AuthStateContext,
-} from "../../context/index";
-import { RUTA_PAGINA_PRINCIPAL } from "../../bk-constantes";
+  AuthContext,
+} from "../../context/authContext/index";
 
 const InicioSesion: React.FC = (props) => {
   // Referencias a elementos
@@ -35,11 +34,8 @@ const InicioSesion: React.FC = (props) => {
   const [mostrarToast, setMostrarToast] = useState(false);
   const [textoToast, setTextoToast] = useState<any>("");
 
-  // Obtenemos el método 'dispatch' de autorización desde el provider mas cercano
-  const dispatch = React.useContext(AuthDispatchContext);
-
-  // Obtenemos estado de autorización desde el provider context más cercano
-  let authState = React.useContext(AuthStateContext) as any;
+  // Obtenemos estado de autorización y función dispatch desde el provider context más cercano
+  let { authState, dispatch } = React.useContext(AuthContext) as any;
 
   /**
    * Manejador. Valida información de inicio de sesión. Muestra
@@ -101,6 +97,7 @@ const InicioSesion: React.FC = (props) => {
       </IonHeader>
       <IonContent>
         <IonGrid>
+
           <IonRow>
             <IonCol>
               <IonItem>
@@ -128,6 +125,7 @@ const InicioSesion: React.FC = (props) => {
           <IonRow>
             <IonCol>
               <IonButton
+                fill="solid"
                 expand="block"
                 color="primary"
                 onClick={onIniciarSesion}
@@ -136,18 +134,15 @@ const InicioSesion: React.FC = (props) => {
                 Iniciar sesión
               </IonButton>
             </IonCol>
-            <IonCol>
-              <IonButton expand="block" color="danger">
-                Cancelar
-              </IonButton>
-            </IonCol>
           </IonRow>
           <IonRow>
             <IonCol>
               <IonButton
+                fill="solid"
                 expand="block"
-                color="primary"
+                color="danger"
                 onClick={onCerrarSesion}
+                disabled={authState.loading}
               >
                 Cerrar sesión
               </IonButton>
@@ -160,7 +155,10 @@ const InicioSesion: React.FC = (props) => {
           </IonRow>
           <IonRow>
             <IonCol>
-              <IonButton expand="block" color="secondary">
+              <IonButton 
+                fill="solid"
+                expand="block"
+                color="secondary">
                 Crear cuenta
               </IonButton>
             </IonCol>
