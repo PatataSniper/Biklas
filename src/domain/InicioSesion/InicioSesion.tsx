@@ -1,19 +1,12 @@
 import React, { useRef, useState } from "react";
 import {
   IonButton,
-  IonButtons,
   IonCol,
-  IonContent,
   IonGrid,
-  IonHeader,
   IonInput,
   IonItem,
   IonLabel,
-  IonMenuButton,
-  IonPage,
   IonRow,
-  IonTitle,
-  IonToolbar,
   IonToast,
 } from "@ionic/react";
 
@@ -22,6 +15,7 @@ import {
   logout,
   AuthContext,
 } from "../../context/authContext/index";
+import AppPage from "../../components/AppPage";
 
 const InicioSesion: React.FC = (props) => {
   // Referencias a elementos
@@ -86,94 +80,76 @@ const InicioSesion: React.FC = (props) => {
   };
 
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonMenuButton />
-          </IonButtons>
-          <IonTitle color="titulo">Biklas</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent>
-        <IonGrid>
-
-          <IonRow>
-            <IonCol>
-              <IonItem>
-                <IonLabel position="floating">Usuario</IonLabel>
-                <IonInput
-                  ref={usuarioInputRef}
-                  id="nombre-usuario"
-                  type="text"
-                />
-              </IonItem>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol>
-              <IonItem>
-                <IonLabel position="floating">Contraseña</IonLabel>
-                <IonInput
-                  ref={contraInputRef}
-                  id="contraseña-usuario"
-                  type="password"
-                />
-              </IonItem>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol>
-              <IonButton
-                fill="solid"
-                expand="block"
-                color="primary"
-                onClick={onIniciarSesion}
-                disabled={authState.loading}
-              >
-                Iniciar sesión
-              </IonButton>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol>
-              <IonButton
-                fill="solid"
-                expand="block"
-                color="danger"
-                onClick={onCerrarSesion}
-                disabled={authState.loading}
-              >
-                Cerrar sesión
-              </IonButton>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol>
-              <a href="/#">Olvidé mi contraseña</a>
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol>
-              <IonButton 
-                fill="solid"
-                expand="block"
-                color="secondary">
-                Crear cuenta
-              </IonButton>
-            </IonCol>
-          </IonRow>
-        </IonGrid>
-        <IonToast
-          isOpen={mostrarToast}
-          onDidDismiss={() => setMostrarToast(false)}
-          message={textoToast}
-          position="bottom"
-          duration={3000}
-          color="warning"
-        />
-      </IonContent>
-    </IonPage>
+    <AppPage esVistaSecundaria>
+      <IonGrid>
+        <IonRow>
+          <IonCol>
+            <IonItem>
+              <IonLabel position="floating">Usuario</IonLabel>
+              <IonInput ref={usuarioInputRef} id="nombre-usuario" type="text" />
+            </IonItem>
+          </IonCol>
+        </IonRow>
+        <IonRow>
+          <IonCol>
+            <IonItem>
+              <IonLabel position="floating">Contraseña</IonLabel>
+              <IonInput
+                ref={contraInputRef}
+                id="contraseña-usuario"
+                type="password"
+              />
+            </IonItem>
+          </IonCol>
+        </IonRow>
+        <IonRow>
+          <IonCol>
+            <IonButton
+              fill="solid"
+              expand="block"
+              color="primary"
+              onClick={onIniciarSesion}
+              disabled={authState.loading}
+            >
+              Iniciar sesión
+            </IonButton>
+          </IonCol>
+        </IonRow>
+        <IonRow>
+          <IonCol>
+            <IonButton
+              fill="solid"
+              expand="block"
+              color="danger"
+              onClick={onCerrarSesion}
+              disabled={authState.loading}
+            >
+              Cerrar sesión
+            </IonButton>
+          </IonCol>
+        </IonRow>
+        <IonRow>
+          <IonCol>
+            <a href="/#">Olvidé mi contraseña</a>
+          </IonCol>
+        </IonRow>
+        <IonRow>
+          <IonCol>
+            <IonButton fill="solid" expand="block" color="secondary">
+              Crear cuenta
+            </IonButton>
+          </IonCol>
+        </IonRow>
+      </IonGrid>
+      <IonToast
+        isOpen={mostrarToast}
+        onDidDismiss={() => setMostrarToast(false)}
+        message={textoToast}
+        position="bottom"
+        duration={3000}
+        color="warning"
+      />
+    </AppPage>
   );
 };
 

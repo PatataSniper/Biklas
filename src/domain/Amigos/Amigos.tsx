@@ -2,26 +2,19 @@ import React, { Component } from "react";
 
 import {
   IonAlert,
-  IonBackButton,
-  IonButton,
-  IonButtons,
-  IonContent,
   IonFab,
   IonFabButton,
-  IonHeader,
   IonIcon,
   IonList,
-  IonPage,
-  IonTitle,
-  IonToast,
-  IonToolbar,
+  IonToast
 } from "@ionic/react";
-import { person, personAdd } from "ionicons/icons";
+import { personAdd } from "ionicons/icons";
 import { amigo } from "../../data/amigos-context";
 import ModalBuscarPersona from "./ModalBuscarPersona";
 import AmigoItem from "./AmigoItem";
 import { AuthContext } from "../../context/authContext";
 import BKDataContext from "../../data/BKDataContext";
+import AppPage from "../../components/AppPage";
 
 class Amigos extends Component {
   state = {
@@ -172,43 +165,27 @@ class Amigos extends Component {
             },
           ]}
         />
-        <IonPage>
-          <IonHeader>
-            <IonToolbar>
-              <IonButtons slot="start">
-                <IonBackButton defaultHref="/tabs/inicio" />
-              </IonButtons>
-              <IonTitle color="titulo">Amigos</IonTitle>
-              <IonButtons slot="primary">
-                <IonButton>
-                  <IonIcon slot="icon-only" icon={person} />
-                </IonButton>
-              </IonButtons>
-            </IonToolbar>
-          </IonHeader>
-          <IonContent>
-            {amigos && (
-              <IonList lines="full">
-                {amigos.map((a: amigo) => (
-                  <AmigoItem
-                    key={a.id}
-                    onIniciarEliminacion={() => {
-                      this.iniciarEliminacionAmigoHandler(a.id);
-                    }}
-                    onAbrirChat={this.abrirChatHandler}
-                    amigo={a}
-                  >
-                  </AmigoItem>
-                ))}
-              </IonList>
-            )}
-            <IonFab horizontal="end" vertical="bottom" slot="fixed">
-              <IonFabButton color="light" onClick={this.buscarPersonaHandler}>
-                <IonIcon icon={personAdd}></IonIcon>
-              </IonFabButton>
-            </IonFab>
-          </IonContent>
-        </IonPage>
+        <AppPage titulo="Amigos" esVistaSecundaria>
+          {amigos && (
+            <IonList lines="full">
+              {amigos.map((a: amigo) => (
+                <AmigoItem
+                  key={a.id}
+                  onIniciarEliminacion={() => {
+                    this.iniciarEliminacionAmigoHandler(a.id);
+                  }}
+                  onAbrirChat={this.abrirChatHandler}
+                  amigo={a}
+                ></AmigoItem>
+              ))}
+            </IonList>
+          )}
+          <IonFab horizontal="end" vertical="bottom" slot="fixed">
+            <IonFabButton color="light" onClick={this.buscarPersonaHandler}>
+              <IonIcon icon={personAdd}></IonIcon>
+            </IonFabButton>
+          </IonFab>
+        </AppPage>
       </React.Fragment>
     );
   }

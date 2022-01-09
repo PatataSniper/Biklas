@@ -7,3 +7,6 @@ export const AMIGOS_CONTROLLER = "Amigos";
 
 // Páginas
 export const RUTA_PAGINA_PRINCIPAL = '/rodar';
+
+// Titulo de página por defecto
+export const TITULO_PAGINA = 'Biklas';
