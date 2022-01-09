@@ -8,7 +8,7 @@ import {
   IonIcon,
   IonLabel,
 } from "@ionic/react";
-import { bicycle, mapSharp, person, personCircle } from "ionicons/icons";
+import { mapSharp, person, personCircle } from "ionicons/icons";
 import { AuthContext } from "../context/authContext";
 
 const MenuLateral: React.FC = () => {
@@ -29,12 +29,6 @@ const MenuLateral: React.FC = () => {
     <IonMenu contentId="main">
       <IonContent>
         <IonList>
-          <IonMenuToggle key="rodar">
-            <IonItem button routerLink="/rodar" routerDirection="none">
-              <IonIcon slot="start" icon={bicycle} />
-              <IonLabel>Rodar</IonLabel>
-            </IonItem>
-          </IonMenuToggle>
           <IonMenuToggle key="rutas">
             <IonItem button routerLink="/rutas" routerDirection="none">
               <IonIcon slot="start" icon={mapSharp} />

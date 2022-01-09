@@ -2,6 +2,7 @@ import React, { Component } from "react";
 
 import {
   IonAlert,
+  IonBackButton,
   IonButton,
   IonButtons,
   IonContent,
@@ -10,7 +11,6 @@ import {
   IonHeader,
   IonIcon,
   IonList,
-  IonMenuButton,
   IonPage,
   IonTitle,
   IonToast,
@@ -176,7 +176,7 @@ class Amigos extends Component {
           <IonHeader>
             <IonToolbar>
               <IonButtons slot="start">
-                <IonMenuButton />
+                <IonBackButton defaultHref="/tabs/inicio" />
               </IonButtons>
               <IonTitle color="titulo">Amigos</IonTitle>
               <IonButtons slot="primary">

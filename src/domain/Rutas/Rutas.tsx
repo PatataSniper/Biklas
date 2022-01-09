@@ -9,11 +9,11 @@ import {
   IonToolbar,
   IonPage,
   IonButtons,
-  IonMenuButton,
   isPlatform,
   IonFab,
   IonFabButton,
   IonIcon,
+  IonBackButton,
 } from "@ionic/react";
 import { add, person } from "ionicons/icons";
 import ModalCrearRuta from "./ModalCrearRuta";
@@ -44,7 +44,7 @@ const Rutas: React.FC = () => {
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonMenuButton />
+              <IonBackButton defaultHref="/tabs/inicio" />
             </IonButtons>
             <IonTitle color="titulo">Rutas</IonTitle>
             <IonButtons slot="primary">

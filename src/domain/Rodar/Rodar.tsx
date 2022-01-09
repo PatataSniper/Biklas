@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import {
   IonButton,
   IonButtons,
@@ -10,9 +10,11 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import { notifications } from "ionicons/icons";
+import { person } from "ionicons/icons";
 
-const Inicio: React.FC = () => {
+interface RodarProps {}
+
+const Rodar: FunctionComponent<RodarProps> = () => {
   return (
     <IonPage>
       <IonHeader>
@@ -22,17 +24,17 @@ const Inicio: React.FC = () => {
           </IonButtons>
           <IonButtons slot="primary">
             <IonButton>
-              <IonIcon slot="icon-only" icon={notifications} />
+              <IonIcon slot="icon-only" icon={person} />
             </IonButton>
           </IonButtons>
           <IonTitle color="titulo">Biklas</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
-        <h2>Página de inicio</h2>
+        <h2>Iniciamos viaje</h2>
       </IonContent>
     </IonPage>
   );
 };
 
-export default Inicio;
+export default Rodar;

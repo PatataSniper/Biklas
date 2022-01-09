@@ -1,9 +1,8 @@
 :root {
-  --ion-toolbar-background: var(--ion-color-tertiary);
-  --ion-tab-bar-background: var(--ion-color-primary);
-  --ion-tab-bar-color-selected: var(--ion-color-secondary);
-  --ion-tab-bar-color: var(--ion-color-light-shade);
-  --ion-tab-bar-color: var(--ion-color-primary);
+  --ion-toolbar-background: var(--ion-color-light);
+  --ion-tab-bar-background: var(--ion-color-light);
+  --ion-tab-bar-color-selected: var(--ion-color-primary);
+  --ion-tab-bar-color: var(--ion-color-secondary);
 
   /* Comentado debido a que ocasiona un error al configurarlo, ya que, aún 
     en modo oscuro sigue utilizando el color de contraste del modo claro. Sin 

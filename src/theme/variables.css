@@ -147,8 +147,8 @@ http://ionicframework.com/docs/theming/ */
 
     --ion-color-titulo: #fa9e00;
     --ion-color-titulo-rgb: 250, 158, 0;
-    --ion-color-titulo-contrast: #000000;
-    --ion-color-titulo-contrast-rgb: 0, 0, 0;
+    --ion-color-titulo-contrast: #ffffff;
+    --ion-color-titulo-contrast-rgb: 255, 255, 255;
     --ion-color-titulo-shade: #dc8b00;
     --ion-color-titulo-tint: #fba81a;
   }
