@@ -46,7 +46,7 @@ const Rutas: React.FC = () => {
             <IonButtons slot="start">
               <IonMenuButton />
             </IonButtons>
-            <IonTitle>Rutas</IonTitle>
+            <IonTitle color="titulo">Rutas</IonTitle>
             <IonButtons slot="primary">
               <IonButton>
                 <IonIcon slot="icon-only" icon={person} />

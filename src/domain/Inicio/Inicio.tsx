@@ -25,7 +25,7 @@ const Rodar: React.FC = () => {
               <IonIcon slot="icon-only" icon={person} />
             </IonButton>
           </IonButtons>
-          <IonTitle>Biklas</IonTitle>
+          <IonTitle color="titulo">Biklas</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>

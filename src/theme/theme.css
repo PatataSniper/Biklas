@@ -1,7 +1,22 @@
 :root {
-    --ion-toolbar-background: var(--ion-color-tertiary);
-    --ion-tab-bar-background: var(--ion-color-primary);
-    --ion-tab-bar-color-selected: var(--ion-color-secondary);
-    --ion-tab-bar-color: var(--ion-color-light-shade);
-    --ion-toolbar-color: var(--ion-color-primary-contrast);
+  --ion-toolbar-background: var(--ion-color-tertiary);
+  --ion-tab-bar-background: var(--ion-color-primary);
+  --ion-tab-bar-color-selected: var(--ion-color-secondary);
+  --ion-tab-bar-color: var(--ion-color-light-shade);
+  --ion-tab-bar-color: var(--ion-color-primary);
+
+  /* Comentado debido a que ocasiona un error al configurarlo, ya que, aún 
+    en modo oscuro sigue utilizando el color de contraste del modo claro. Sin 
+    embargo, los colores que necesitamos son los mismos que la variable utiliza
+    por defecto. */
+  /* --ion-toolbar-color: var(--ion-color-tertiary-contrast); */
+}
+
+.ion-color-titulo {
+  --ion-color-base: var(--ion-color-titulo);
+  --ion-color-base-rgb: var(--ion-color-titulo-rgb);
+  --ion-color-contrast: var(--ion-color-titulo-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-titulo-contrast-rgb);
+  --ion-color-shade: var(--ion-color-titulo-shade);
+  --ion-color-tint: var(--ion-color-titulo-tint);
 }

@@ -92,7 +92,7 @@ const InicioSesion: React.FC = (props) => {
           <IonButtons slot="start">
             <IonMenuButton />
           </IonButtons>
-          <IonTitle>Biklas</IonTitle>
+          <IonTitle color="titulo">Biklas</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>

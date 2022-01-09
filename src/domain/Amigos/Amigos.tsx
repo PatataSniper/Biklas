@@ -178,7 +178,7 @@ class Amigos extends Component {
               <IonButtons slot="start">
                 <IonMenuButton />
               </IonButtons>
-              <IonTitle>Amigos</IonTitle>
+              <IonTitle color="titulo">Amigos</IonTitle>
               <IonButtons slot="primary">
                 <IonButton>
                   <IonIcon slot="icon-only" icon={person} />
