@@ -106,9 +106,11 @@ class Amigos extends Component {
     this.setState({ estaBuscando: true });
   };
 
-  cancelarBusquedaHandler = () => {
-    // Cancel the search of users
+  cerrarBusquedaHandler = () => {
+    // Cerrar modal de búsqueda de usuarios y obtener amigos relacionados
+    // del contexto de datos.
     this.setState({ estaBuscando: false });
+    this.obtenerAmigos();
   };
 
   componentDidMount = () => {
@@ -141,7 +143,7 @@ class Amigos extends Component {
         <ModalBuscarPersona
           show={estaBuscando}
           idUsuario={this.state.idUsuario}
-          onCancel={this.cancelarBusquedaHandler}
+          onCancel={this.cerrarBusquedaHandler}
         />
         <IonToast
           isOpen={!!msjToast}

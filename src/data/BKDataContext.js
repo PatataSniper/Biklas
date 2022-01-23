@@ -78,12 +78,17 @@ class BKDataContext {
       idAmigoAgregar: idAmigo
     }
 
-    // Debemos configurar la llamada como POST, pendiente.
+    // Todo. Debemos configurar la llamada como POST, pendiente.
     await llamadaAjax(AMIGOS_CONTROLLER, "AgregarAmigo", params)
-    .then((result) => {
+    .then(() => {
       // Éxito en la agregación del amigo
+      console.log("Se agregó al amigo");
+      return true;
     })
-    .catch((err) => console.log(err));
+    .catch((err) => {
+      console.log(err);
+      return false
+    });
   }
 
   static async EliminarAmigo(idUsuario, idAmigo){
