@@ -2,22 +2,30 @@ import React, { useRef, useState } from "react";
 import {
   IonButton,
   IonCol,
+  IonContent,
   IonGrid,
+  IonHeader,
   IonInput,
   IonItem,
   IonLabel,
+  IonPage,
   IonRow,
+  IonTitle,
   IonToast,
+  IonToolbar,
 } from "@ionic/react";
 
-import {
-  loginUser,
-  logout,
-  AuthContext,
-} from "../../context/authContext/index";
-import AppPage from "../../components/AppPage";
+import { loginUser, AuthContext } from "../../context/authContext/index";
+import { RUTA_PAGINA_PRINCIPAL, TITULO_PAGINA } from "../../bk-constantes";
+import { useHistory } from "react-router";
 
-const InicioSesion: React.FC = (props) => {
+interface InicioSesionProps {}
+
+const InicioSesion: React.FC<InicioSesionProps> = () => {
+  // Nota: Este componente no utiliza a 'AppPage' para el renderizado de la interfaz.
+  // Se trata de una página muy simple que no utiliza elementos comunes como el botón
+  // de despliegue de menú o el título de página personalizado.
+
   // Referencias a elementos
   const usuarioInputRef = useRef<HTMLIonInputElement>(null);
   const contraInputRef = useRef<HTMLIonInputElement>(null);
@@ -27,6 +35,9 @@ const InicioSesion: React.FC = (props) => {
   // sin embargo, siempre deberá ser string
   const [mostrarToast, setMostrarToast] = useState(false);
   const [textoToast, setTextoToast] = useState<any>("");
+
+  // Hook para acceder al sistema de navegación programática en React
+  const history = useHistory();
 
   // Obtenemos estado de autorización y función dispatch desde el provider context más cercano
   let { authState, dispatch } = React.useContext(AuthContext) as any;
@@ -54,7 +65,7 @@ const InicioSesion: React.FC = (props) => {
       loginUser(dispatch, params)
         .then(() => {
           // Éxito en el inicio de sesión, redireccionamos a pantalla principal
-          // props.history.push(RUTA_PAGINA_PRINCIPAL);
+          history.push(RUTA_PAGINA_PRINCIPAL);
         })
         .catch((err) => {
           // Error en el inicio de sesión
@@ -73,83 +84,75 @@ const InicioSesion: React.FC = (props) => {
     }
   };
 
-  const onCerrarSesion = () => {
-    logout(dispatch);
-    setTextoToast("Se ha cerrado la sesión");
-    setMostrarToast(true);
-  };
-
   return (
-    <AppPage esVistaSecundaria>
-      <IonGrid>
-        <IonRow>
-          <IonCol>
-            <IonItem>
-              <IonLabel position="floating">Usuario</IonLabel>
-              <IonInput ref={usuarioInputRef} id="nombre-usuario" type="text" />
-            </IonItem>
-          </IonCol>
-        </IonRow>
-        <IonRow>
-          <IonCol>
-            <IonItem>
-              <IonLabel position="floating">Contraseña</IonLabel>
-              <IonInput
-                ref={contraInputRef}
-                id="contraseña-usuario"
-                type="password"
-              />
-            </IonItem>
-          </IonCol>
-        </IonRow>
-        <IonRow>
-          <IonCol>
-            <IonButton
-              fill="solid"
-              expand="block"
-              color="primary"
-              onClick={onIniciarSesion}
-              disabled={authState.loading}
-            >
-              Iniciar sesión
-            </IonButton>
-          </IonCol>
-        </IonRow>
-        <IonRow>
-          <IonCol>
-            <IonButton
-              fill="solid"
-              expand="block"
-              color="danger"
-              onClick={onCerrarSesion}
-              disabled={authState.loading}
-            >
-              Cerrar sesión
-            </IonButton>
-          </IonCol>
-        </IonRow>
-        <IonRow>
-          <IonCol>
-            <a href="/#">Olvidé mi contraseña</a>
-          </IonCol>
-        </IonRow>
-        <IonRow>
-          <IonCol>
-            <IonButton fill="solid" expand="block" color="secondary">
-              Crear cuenta
-            </IonButton>
-          </IonCol>
-        </IonRow>
-      </IonGrid>
-      <IonToast
-        isOpen={mostrarToast}
-        onDidDismiss={() => setMostrarToast(false)}
-        message={textoToast}
-        position="bottom"
-        duration={3000}
-        color="warning"
-      />
-    </AppPage>
+    <IonPage>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle color="titulo">{TITULO_PAGINA}</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent>
+        <IonGrid>
+          <IonRow>
+            <IonCol>
+              <IonItem>
+                <IonLabel position="floating">Usuario</IonLabel>
+                <IonInput
+                  ref={usuarioInputRef}
+                  id="nombre-usuario"
+                  type="text"
+                />
+              </IonItem>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol>
+              <IonItem>
+                <IonLabel position="floating">Contraseña</IonLabel>
+                <IonInput
+                  ref={contraInputRef}
+                  id="contraseña-usuario"
+                  type="password"
+                />
+              </IonItem>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol>
+              <IonButton
+                fill="solid"
+                expand="block"
+                color="primary"
+                onClick={onIniciarSesion}
+                disabled={authState.loading}
+              >
+                Iniciar sesión
+              </IonButton>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol>
+              <a href="/#">Olvidé mi contraseña</a>
+            </IonCol>
+          </IonRow>
+          <IonRow>
+            <IonCol>
+              <IonButton fill="solid" expand="block" color="secondary">
+                Crear cuenta
+              </IonButton>
+            </IonCol>
+          </IonRow>
+        </IonGrid>
+        <IonToast
+          isOpen={mostrarToast}
+          onDidDismiss={() => setMostrarToast(false)}
+          message={textoToast}
+          position="bottom"
+          duration={3000}
+          color="warning"
+        />
+      </IonContent>
+    </IonPage>
   );
 };
 

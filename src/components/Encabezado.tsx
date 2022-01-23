@@ -9,7 +9,7 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import { notifications } from "ionicons/icons";
+import { notificationsOutline } from "ionicons/icons";
 import { TITULO_PAGINA } from "../bk-constantes";
 
 interface EncabezadoProps {
@@ -32,7 +32,7 @@ const Encabezado: FunctionComponent<EncabezadoProps> = (
         </IonButtons>
         <IonButtons slot="primary">
           <IonButton>
-            <IonIcon slot="icon-only" icon={notifications} />
+            <IonIcon slot="icon-only" icon={notificationsOutline} />
           </IonButton>
         </IonButtons>
         <IonTitle color="titulo">{props.titulo ?? TITULO_PAGINA}</IonTitle>

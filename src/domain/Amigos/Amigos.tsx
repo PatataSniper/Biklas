@@ -66,10 +66,13 @@ class Amigos extends Component {
       // limpiamos identificador de amigo a eliminar. Para actualizar el
       // estado volvemos a asignar la lista de amigos sin el recién
       // eliminado (investigar como actualizar la base de datos).
-      let { idAmigoAEliminar } = this.state;
+      let { idAmigoAEliminar, idUsuario } = this.state;
 
       // Obtenemos al amigo a eliminar
       const amigoAEliminar = this.__obtenerAmigo(idAmigoAEliminar);
+
+      // Eliminamos la relación de la base de datos
+      BKDataContext.EliminarAmigo(idUsuario, idAmigoAEliminar);
 
       // Creamos nuevo arreglo excluyendo al amigo eliminado
       const amigos = this.state.amigos.filter(

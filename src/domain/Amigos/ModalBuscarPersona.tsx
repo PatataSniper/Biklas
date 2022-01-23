@@ -106,6 +106,13 @@ const ModalBuscarPersona: React.FC<{
     // dependency). 
   }, [state.busqueda, props.idUsuario]);
 
+  const enAgregarAmigo = (idAmigo: number) => {
+    const idUsuario = props.idUsuario;
+
+    // Agregamos amigo al servidor
+    BKDataContext.AgregarAmigo(idUsuario, idAmigo);
+  }
+
   return (
     <IonModal isOpen={props.show}>
       <IonHeader>
@@ -148,7 +155,7 @@ const ModalBuscarPersona: React.FC<{
                       Amigo
                     </IonButton>
                   ) : (
-                    <IonButton fill="outline" color="secondary">
+                    <IonButton fill="outline" color="secondary" onClick={() => enAgregarAmigo(p.idUsuario)}>
                       Agregar
                     </IonButton>
                   )}
@@ -169,8 +176,8 @@ const ModalBuscarPersona: React.FC<{
           )}
           <IonRow>
             <IonCol>
-              <IonButton fill="clear" color="danger" onClick={props.onCancel}>
-                Cancelar
+              <IonButton fill="clear" color="secondary" onClick={props.onCancel}>
+                Cerrar
               </IonButton>
             </IonCol>
           </IonRow>

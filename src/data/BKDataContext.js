@@ -70,6 +70,36 @@ class BKDataContext {
 
     return amigos;
   }
+
+  static async AgregarAmigo(idUsuario, idAmigo){
+    // Preparamos los parámetros de la función de agregación
+    let params = {
+      idUsuario,
+      idAmigoAgregar: idAmigo
+    }
+
+    // Debemos configurar la llamada como POST, pendiente.
+    await llamadaAjax(AMIGOS_CONTROLLER, "AgregarAmigo", params)
+    .then((result) => {
+      // Éxito en la agregación del amigo
+    })
+    .catch((err) => console.log(err));
+  }
+
+  static async EliminarAmigo(idUsuario, idAmigo){
+    // Preparamos los parámetros de la función de eliminación
+    let params = {
+      idUsuario,
+      idAmigo
+    }
+
+    // Debemos configurar la llamada como POST, pendiente.
+    await llamadaAjax(AMIGOS_CONTROLLER, "EliminarAmigo", params)
+    .then((result) => {
+      // Éxito en la eliminación de la relación de amistad
+    })
+    .catch((err) => console.log(err));
+  }
 }
 
 export default BKDataContext;

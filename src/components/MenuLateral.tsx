@@ -8,7 +8,7 @@ import {
   IonIcon,
   IonLabel,
 } from "@ionic/react";
-import { mapSharp, person, personCircle } from "ionicons/icons";
+import { mapSharp, person, personCircle, settings } from "ionicons/icons";
 import { AuthContext } from "../context/authContext";
 
 const MenuLateral: React.FC = () => {
@@ -39,6 +39,12 @@ const MenuLateral: React.FC = () => {
             <IonItem button routerLink="/amigos" routerDirection="none">
               <IonIcon slot="start" icon={person} />
               <IonLabel>Amigos</IonLabel>
+            </IonItem>
+          </IonMenuToggle>
+          <IonMenuToggle key="configuracion">
+            <IonItem button routerLink="/configuracion">
+              <IonIcon slot="start" icon={settings}></IonIcon>
+              <IonLabel>Configuración</IonLabel>
             </IonItem>
           </IonMenuToggle>
           {!tieneAcceso() && (
