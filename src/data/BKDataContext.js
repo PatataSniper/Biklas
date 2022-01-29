@@ -1,10 +1,10 @@
 import { AMIGOS_CONTROLLER, USUARIOS_CONTROLLER } from "../bk-constantes";
-import {llamadaAjax} from "../bk-utils";
+import { llamadaAjax } from "../bk-utils";
 
 class BKDataContext {
   /**
    * Obtiene la lista de usuarios dados de alta. Se puede especificar el id
-   * del usuario que realiza la búsqueda, dicho usuario se excluirá de la 
+   * del usuario que realiza la búsqueda, dicho usuario se excluirá de la
    * lista resultante
    * @param {(number|null)} idUsuario El id del usuario que realiza la búsqueda
    * @param {string} textoBusqueda El texto de búsqueda de usuarios
@@ -12,14 +12,18 @@ class BKDataContext {
    * desde el servidor remoto o no. True por defecto
    * @returns {Array} Usuarios obtenidos del almacenamiento (remoto o local)
    */
-  static async Usuarios(idUsuario = null, textoBusqueda = null, actualizar = true) {
+  static async Usuarios(
+    idUsuario = null,
+    textoBusqueda = null,
+    actualizar = true
+  ) {
     let usuarios = [];
     if (actualizar) {
       // Se especifica la actualización, intentaremos obtener los datos
       // del servidor remoto
       const params = {
         idUsuario,
-        textoBusqueda
+        textoBusqueda,
       };
 
       await llamadaAjax(USUARIOS_CONTROLLER, null, params)
@@ -71,39 +75,62 @@ class BKDataContext {
     return amigos;
   }
 
-  static async AgregarAmigo(idUsuario, idAmigo){
-    // Preparamos los parámetros de la función de agregación
-    let params = {
-      idUsuario,
-      idAmigoAgregar: idAmigo
-    }
+  static async AgregarAmigo(idUsuario, idAmigo) {
+    // Preparamos los parámetros de la función de agregación. Enviamos el
+    // objeto de relación en un string codificado con formato JSON. Para esto
+    // no utilizamos parámetros en URL, utilizamos la propiedad 'body' de los
+    // parámetros de inicialización de la función 'fetch'
+    const relacion = {
+      IdUsuario: idUsuario,
+      IdAmigo: idAmigo,
+    };
+
+    // Configuramos opciones de inicialización de la función 'fetch'
+    let initOptions = {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify(relacion),
+    };
 
     // Todo. Debemos configurar la llamada como POST, pendiente.
-    await llamadaAjax(AMIGOS_CONTROLLER, "AgregarAmigo", params)
-    .then(() => {
-      // Éxito en la agregación del amigo
-      console.log("Se agregó al amigo");
-      return true;
-    })
-    .catch((err) => {
-      console.log(err);
-      return false
-    });
+    await llamadaAjax(AMIGOS_CONTROLLER, "AgregarAmigo", null, initOptions)
+      .then(() => {
+        // Éxito en la agregación del amigo
+        console.log("Se agregó al amigo");
+        return true;
+      })
+      .catch((err) => {
+        console.log(err);
+        return false;
+      });
   }
 
-  static async EliminarAmigo(idUsuario, idAmigo){
-    // Preparamos los parámetros de la función de eliminación
-    let params = {
-      idUsuario,
-      idAmigo
-    }
+  static async EliminarAmigo(idUsuario, idAmigo) {
+    // Preparamos los parámetros de la función de eliminación. Enviamos el
+    // objeto de relación en un string codificado con formato JSON. Para esto
+    // no utilizamos parámetros en URL, utilizamos la propiedad 'body' de los
+    // parámetros de inicialización de la función 'fetch'
+    const relacion = {
+      IdUsuario: idUsuario,
+      IdAmigo: idAmigo,
+    };
 
-    // Debemos configurar la llamada como POST, pendiente.
-    await llamadaAjax(AMIGOS_CONTROLLER, "EliminarAmigo", params)
-    .then((result) => {
-      // Éxito en la eliminación de la relación de amistad
-    })
-    .catch((err) => console.log(err));
+    // Configuramos opciones de inicialización de la función 'fetch'
+    let initOptions = {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify(relacion),
+    };
+
+    await llamadaAjax(AMIGOS_CONTROLLER, "EliminarAmigo", null, initOptions)
+      .then((result) => {
+        // Éxito en la eliminación de la relación de amistad
+      })
+      .catch((err) => console.log(err));
   }
 }
 

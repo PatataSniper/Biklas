@@ -60,12 +60,11 @@ class Amigos extends Component {
    */
   eliminarAmigoHandler = () => {
     try {
-      // El usuario confirma la eliminación de un amigo, obtenemos el
-      // id de dicho amigo del estado del componente. Mostramos mensaje
-      // de éxito de eliminación, ocultamos modal de confirmación y
-      // limpiamos identificador de amigo a eliminar. Para actualizar el
-      // estado volvemos a asignar la lista de amigos sin el recién
-      // eliminado (investigar como actualizar la base de datos).
+      // El usuario confirma la eliminación de un amigo, obtenemos el id de dicho 
+      // amigo del estado del componente. Mostramos mensaje de éxito de eliminación,
+      // ocultamos modal de confirmación y limpiamos identificador de amigo a 
+      // eliminar. Para actualizar el estado volvemos a asignar la lista de amigos
+      // sin el recién eliminado.
       let { idAmigoAEliminar, idUsuario } = this.state;
 
       // Obtenemos al amigo a eliminar
