@@ -1,4 +1,4 @@
-import { AMIGOS_CONTROLLER, USUARIOS_CONTROLLER } from "../bk-constantes";
+import { AMIGOS_CONTROLLER, RUTAS_CONTROLLER, USUARIOS_CONTROLLER } from "../bk-constantes";
 import { llamadaAjax } from "../bk-utils";
 
 class BKDataContext {
@@ -131,6 +131,38 @@ class BKDataContext {
         // Éxito en la eliminación de la relación de amistad
       })
       .catch((err) => console.log(err));
+  }
+
+  /**
+   * Obtener la lista de rutas relacionadas a un usuario especificado
+   * @param {number} idUsuario El id del usuario especificado
+   * @param {boolean} actualizar Indica si se deberán actualizar los datos
+   * desde el servidor remoto o no. True por defecto
+   */
+   static async Rutas(idUsuario, actualizar = true) {
+    let rutas = null;
+    if (actualizar) {
+      // Se especifica la actualización, intentaremos obtener los datos
+      // del servidor remoto
+      let params = {
+        idUsuario,
+      };
+
+      await llamadaAjax(RUTAS_CONTROLLER, "ObtenerRutasRelacionadas", params)
+        .then((result) => {
+          // Asignamos las rutas devueltas por el servidor
+          rutas = result;
+        })
+        .catch((err) => console.log(err));
+    }
+
+    if (!rutas) {
+      // Datos no obtenidos desde el servidor, los obtenemos del
+      // almacenamiento local
+      console.log("Obteniendo datos del almacenamiento local");
+    }
+
+    return rutas ?? [];
   }
 }
 

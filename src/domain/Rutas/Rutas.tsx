@@ -1,64 +1,89 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import {
   IonRow,
-  IonCol,
-  isPlatform,
-  IonFab,
-  IonFabButton,
-  IonIcon
+  IonCol
 } from "@ionic/react";
-import { add } from "ionicons/icons";
-import ModalCrearRuta from "./ModalCrearRuta";
 import RutaItem from "./RutaItem";
-import RutasContext from "../../data/rutas-context";
 import AppPage from "../../components/AppPage";
+import { AuthContext } from "../../context/authContext";
+import { Ruta } from "../../data/rutas-context";
+import BKDataContext from "../../data/BKDataContext";
+
+// Preparamos el estado inicial del componente. Para este componente (que
+// en principio no será muy complejo) utilizamos el gancho 'useState'
+const estadoInicial = {
+  rutas: [],
+  creando: false
+}
 
 const Rutas: React.FC = () => {
-  const [estaCreando, setEstaCreando] = useState(false);
+  const [state, setState] = useState(estadoInicial);
 
-  const rutasCtx = useContext(RutasContext);
+  // Obtenemos estado de autorización desde el provider context más cercano
+  let { authState } = useContext(AuthContext) as any;
 
-  const iniciarCrearRutaHandler = () => {
-    setEstaCreando(true);
-  };
+  // const iniciarCrearRutaHandler = () => {
+  //   setState({ rutas: state.rutas, creando: true});
+  // };
 
-  const cancelarEditarRutaHandler = () => {
-    setEstaCreando(false);
-  };
+  // const cancelarEditarRutaHandler = () => {
+  //   setState({ rutas: state.rutas, creando: false});
+  // };
 
-  const aceptarCreacionRutaHandler = (nombre: string, fechaCrea: Date) => {
-    rutasCtx.agregarRuta(nombre, fechaCrea);
-    setEstaCreando(false);
-  };
+  // const aceptarCreacionRutaHandler = (nombre: string, fechaCrea: Date) => {
+  //   setState({ rutas: state.rutas, creando: false});
+  //   rutasCtx.agregarRuta(nombre, fechaCrea);
+  // };
+
+  const obtenerRutas = async () => {
+    try {
+      const idUsuario = authState.user.IdUsuario;
+      if (!idUsuario) {
+        // Id de usuario no válido, abortamos el proceso
+        throw new Error("Id usuario no válido");
+      }
+
+      // Esperamos la respuesta del contexto de datos y actualizamos el contexto local
+      setState({ creando: state.creando, rutas: await BKDataContext.Rutas(idUsuario) });
+    } catch (ex) {
+      console.error(ex);
+    }
+  }
+
+  // Utilizamos un efecto para cargar las rutas relacionadas. No pasamos ninguna 
+  // dependencia para imitar el comportamiento de la función componentDidMount
+  useEffect(() => {
+    // Obtenemos las rutas relacionadas al usuario firmado
+    obtenerRutas();
+  }
+  , []);
 
   return (
     <React.Fragment>
       <AppPage titulo="Rutas" esVistaSecundaria>
-        {rutasCtx.rutas.map((reg) => (
+        {state.rutas.map((reg: Ruta) => (
           <IonRow key={`registro_ruta_${reg.id}`}>
             <IonCol size-md="4" offsetMd="4">
               <RutaItem
                 nombre={reg.nombre}
                 distancia={reg.distancia}
-                fechaUltRecor={reg.fechaUltRecorr}
+                fechaUltRecor={reg.fechaUltRecor}
                 id={reg.id}
               />
             </IonCol>
           </IonRow>
         ))}
-        {isPlatform("android") && (
-          <IonFab horizontal="end" vertical="bottom" slot="fixed">
-            <IonFabButton color="light" onClick={iniciarCrearRutaHandler}>
-              <IonIcon icon={add}></IonIcon>
-            </IonFabButton>
-          </IonFab>
-        )}
+        {/* <IonFab horizontal="end" vertical="bottom" slot="fixed">
+          <IonFabButton color="light" onClick={iniciarCrearRutaHandler}>
+            <IonIcon icon={add}></IonIcon>
+          </IonFabButton>
+        </IonFab> */}
       </AppPage>
-      <ModalCrearRuta
+      {/* <ModalCrearRuta
         show={estaCreando}
         onCancel={cancelarEditarRutaHandler}
         onSave={aceptarCreacionRutaHandler}
-      />
+      /> */}
     </React.Fragment>
   );
 };

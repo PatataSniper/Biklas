@@ -53,7 +53,7 @@ const Ruta: React.FC = () => {
               <IonRow>
                 <IonCol>
                   <IonLabel>Fecha último recorrido: </IonLabel>
-                  {ruta?.fechaUltRecorr.toLocaleDateString(undefined, {
+                  {ruta?.fechaUltRecor.toLocaleDateString(undefined, {
                     year: "numeric",
                     month: "long",
                     day: "numeric",

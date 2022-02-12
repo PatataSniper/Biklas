@@ -4,6 +4,7 @@ import RutasContext, {Ruta} from './rutas-context';
 
 var nuevoId = 1;
 
+// Todo: ¿En donde se utiliza RutasContextProvider?
 const RutasContextProvider: React.FC<{children: {}}> = (props) => {
 
   const [rutas, setRutas] = useState<Ruta[]>([
@@ -12,7 +13,7 @@ const RutasContextProvider: React.FC<{children: {}}> = (props) => {
       nombre: 'Ruta al trabajo',
       distancia: '7.6km',
       fechaCreacion: new Date(2021, 1, 26),
-      fechaUltRecorr: new Date(2021, 2, 12),
+      fechaUltRecor: new Date(2021, 2, 12),
       fotografias: []
     }
   ]);
@@ -23,7 +24,7 @@ const RutasContextProvider: React.FC<{children: {}}> = (props) => {
       nombre,
       distancia: "0 km",
       fechaCreacion,
-      fechaUltRecorr: new Date(),
+      fechaUltRecor: new Date(),
       fotografias: [],
     };
 
