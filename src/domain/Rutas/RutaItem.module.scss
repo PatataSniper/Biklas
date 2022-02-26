@@ -1,0 +1,72 @@
+// Código gracias a Alanmontgomery de GitHub
+// https://github.com/alanmontgomery/ionic-instagram-clone/blob/main/src/components/Feed.module.scss
+.perfilRuta {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  padding-right: 0.75rem;
+  padding-left: 0.75rem;
+}
+
+.perfilRuta ion-router-link {
+  display: flex !important;
+  flex-direction: row !important;
+}
+
+.perfilRutaInfo ion-avatar {
+  height: 2.2rem;
+  width: 2.2rem;
+}
+
+.perfilRutaInfo p {
+  margin: 0;
+  padding: 0;
+  margin-left: 0.5rem;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.perfilRutaInfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.encabezadoRuta {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  padding-right: 0.75rem;
+  padding-left: 0.75rem;
+}
+
+.encabezadoRuta ion-router-link {
+  display: flex !important;
+  flex-direction: row !important;
+}
+
+.encabezadoRutaInfo{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  align-content: center;
+  margin-left: 0.5rem;
+}
+
+.encabezadoRutaInfo p {
+  margin: 0;
+  padding: 0;
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.encabezadoRutaMas {
+  margin-right: 0.5rem;
+}

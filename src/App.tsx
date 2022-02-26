@@ -23,7 +23,6 @@ import "@ionic/react/css/display.css";
 import "./theme/variables.css";
 import "./theme/theme.css";
 
-import RutasContextProvider from "./data/RutasContextProvider";
 import { AuthContextProvider } from "./context/authContext";
 import AppRouter from "./AppRouter";
 
@@ -31,9 +30,7 @@ const App: React.FC = () => {
   return (
     <IonApp>
       <AuthContextProvider>
-        <RutasContextProvider>
           <AppRouter/>
-        </RutasContextProvider>
       </AuthContextProvider>
     </IonApp>
   );
