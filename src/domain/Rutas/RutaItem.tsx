@@ -1,24 +1,19 @@
 import React, { Fragment } from "react";
 
 import {
-  IonCard,
-  IonCardHeader,
-  IonCardTitle,
-  IonItem,
-  IonCardSubtitle,
-  IonCardContent,
-  IonButton,
-  IonTitle,
-  IonButtons,
   IonIcon,
-  IonToolbar,
-  IonContent,
-  IonLabel,
   IonRouterLink,
   IonAvatar,
 } from "@ionic/react";
-import { ellipsisVertical } from "ionicons/icons";
+import {
+  arrowDownCircleOutline,
+  arrowUpCircleOutline,
+  arrowUpCircleSharp,
+  bookmarkOutline,
+  ellipsisVertical,
+} from "ionicons/icons";
 import estilos from "./RutaItem.module.scss";
+import { GOOGLE_DEV_API_KEY } from "../../config/credentials-config";
 
 const RutaItem: React.FC<{
   nombre: string;
@@ -36,7 +31,10 @@ const RutaItem: React.FC<{
           <div className={estilos.perfilRutaInfo}>
             <IonRouterLink>
               <IonAvatar>
-                <img alt="Avatar ruta" src="https://wallpapercave.com/wp/wp5389930.jpg" />
+                <img
+                  alt="Avatar ruta"
+                  src="https://wallpapercave.com/wp/wp5389930.jpg"
+                />
               </IonAvatar>
             </IonRouterLink>
 
@@ -51,9 +49,9 @@ const RutaItem: React.FC<{
       )}
       <div className={estilos.encabezadoRuta}>
         <div className={estilos.encabezadoRutaInfo}>
-            <h3>
-              {props.nombre} | {props.distancia}
-            </h3>
+          <h3>
+            {props.nombre} | {props.distancia}
+          </h3>
           <p>{props.fechaCreacion}</p>
         </div>
         {props.esPropia && (
@@ -64,12 +62,31 @@ const RutaItem: React.FC<{
           </div>
         )}
       </div>
-      <IonCardContent>
-        <img
-          alt=""
-          src="https://maps.googleapis.com/maps/api/staticmap?center=20.700195,-103.330416&zoom=15&size=400x400&key=AIzaSyAr6i9JuVsBo00u1-4X5zvtpgy-X9q9p0A&map_id=ad07c3f54e7a1a2b"
-        ></img>
-      </IonCardContent>
+
+      <div
+        className={estilos.imagenRuta}
+        style={{
+          backgroundImage: `url("https://maps.googleapis.com/maps/api/staticmap?center=20.700195,-103.330416&zoom=15&size=400x400&key=${GOOGLE_DEV_API_KEY}")`,
+          backgroundPosition: "center, center",
+          backgroundSize: "cover",
+        }}
+      ></div>
+
+      <div className={estilos.contenedorAccionesRuta}>
+        <div className={estilos.accionesRuta}>
+          <IonIcon
+            color={"success"}
+            icon={
+              arrowUpCircleSharp
+            } /*onClick={ e => addLike(e, post.id, post.liked) }*/
+          />
+          <IonIcon color="danger" icon={arrowDownCircleOutline} />
+        </div>
+
+        <div className={estilos.bookmarkRuta}>
+          <IonIcon icon={bookmarkOutline} />
+        </div>
+      </div>
     </Fragment>
   );
 };

@@ -26,6 +26,7 @@
   margin-left: 0.5rem;
   font-weight: 500;
   font-size: 0.9rem;
+  color: var(--ion-color-primary-contrast);
 }
 
 .perfilRutaInfo {
@@ -51,7 +52,7 @@
   flex-direction: row !important;
 }
 
-.encabezadoRutaInfo{
+.encabezadoRutaInfo {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -69,4 +70,41 @@
 
 .encabezadoRutaMas {
   margin-right: 0.5rem;
+}
+
+.imagenRuta {
+  border-top: 1px solid rgb(216, 216, 216);
+  margin-top: 0.5rem;
+  height: 20rem;
+  width: 100%;
+}
+
+.contenedorAccionesRuta {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  padding-right: 0.75rem;
+  padding-left: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.accionesRuta {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.accionesRuta ion-icon {
+  font-size: 1.8rem;
+}
+
+.bookmarkRuta ion-icon {
+  color: var(--ion-color-primary);
+  font-size: 1.5rem;
+}
+
+.accionesRuta ion-icon:not(:first-child) {
+  padding-left: 0.7rem;
 }
