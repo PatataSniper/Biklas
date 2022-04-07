@@ -1,5 +1,7 @@
 import { IonItem, IonLabel, IonList, IonToast } from "@ionic/react";
 import React, { FunctionComponent, useState } from "react";
+import { useHistory } from "react-router";
+import { RUTA_PAGINA_SIN_SESION } from "../../bk-constantes";
 import AppPage from "../../components/AppPage";
 import { AuthContext, logout } from "../../context/authContext";
 
@@ -10,8 +12,12 @@ const Configuracion: FunctionComponent<ConfiguracionProps> = () => {
   const [mostrarToast, setMostrarToast] = useState(false);
   const [textoToast, setTextoToast] = useState<any>("");
 
+  // Hook para acceder al sistema de navegación programática en React
+  const history = useHistory();
+
   const onCerrarSesion = () => {
     logout(dispatch);
+    history.push(RUTA_PAGINA_SIN_SESION);
     setTextoToast("Se ha cerrado la sesión");
     setMostrarToast(true);
   };

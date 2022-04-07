@@ -7,7 +7,6 @@ import {
 } from "@ionic/react";
 import {
   arrowDownCircleOutline,
-  arrowUpCircleOutline,
   arrowUpCircleSharp,
   bookmarkOutline,
   ellipsisVertical,

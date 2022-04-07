@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Route } from "react-router-dom";
 import { AuthContext } from "../context/authContext";
-import InicioSesion from "../domain/InicioSesion/InicioSesion";
+import InicioSesion from "../domain/SinSesion/InicioSesion";
 
 export const AppRoute: React.FC<{
   path: string;

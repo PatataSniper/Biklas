@@ -7,9 +7,10 @@ import MenuLateral from "./components/MenuLateral";
 import { AuthContext } from "./context/authContext";
 import Amigos from "./domain/Amigos/Amigos";
 import Configuracion from "./domain/Configuracion/Configuracion";
-import InicioSesion from "./domain/InicioSesion/InicioSesion";
+import InicioSesion from "./domain/SinSesion/InicioSesion";
 import Ruta from "./domain/Rutas/Ruta";
 import Rutas from "./domain/Rutas/Rutas";
+import CreacionUsuario from "./domain/SinSesion/CreacionUsuario";
 
 interface Props {}
 
@@ -41,14 +42,22 @@ const AppRouter: FunctionComponent<Props> = () => {
               <Route path="/rutas" component={Rutas} />
               <Route path="/amigos" component={Amigos} />
               <Route path="/configuracion" component={Configuracion} />
-              <Route path="/inicioSesion" component={InicioSesion} />
-              <Redirect exact from="/" to="tabs/inicio" />
+              {/* <Route path="/inicioSesion" component={InicioSesion} /> */}
+              <Route path="/creacionUsuario" component={CreacionUsuario} />
+              <Redirect to="tabs/inicio" />
             </IonRouterOutlet>
           </IonSplitPane>
         </IonReactRouter>
-      )
-    }
-    {!tieneAcceso() && <InicioSesion/>}
+      )}
+      {!tieneAcceso() && (
+        <IonReactRouter>
+          <IonRouterOutlet id="no-login">
+            <Route path="/inicioSesion" component={InicioSesion} />
+            <Route path="/creacionUsuario" component={CreacionUsuario} />
+            <Redirect to="/inicioSesion" />
+          </IonRouterOutlet>
+        </IonReactRouter>
+      )}
     </React.Fragment>
   );
 };

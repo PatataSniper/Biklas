@@ -47,14 +47,6 @@ const MenuLateral: React.FC = () => {
               <IonLabel>Configuración</IonLabel>
             </IonItem>
           </IonMenuToggle>
-          {!tieneAcceso() && (
-            <IonMenuToggle key="inicioSesion">
-              <IonItem button routerLink="/inicioSesion" routerDirection="none">
-                <IonIcon slot="start" icon={personCircle} />
-                <IonLabel>Iniciar sesión</IonLabel>
-              </IonItem>
-            </IonMenuToggle>
-          )}
         </IonList>
       </IonContent>
     </IonMenu>

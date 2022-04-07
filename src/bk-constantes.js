@@ -8,6 +8,7 @@ export const RUTAS_CONTROLLER = "Rutas";
 
 // Páginas
 export const RUTA_PAGINA_PRINCIPAL = 'tabs/inicio';
+export const RUTA_PAGINA_SIN_SESION = 'inicioSesion';
 
 // Titulo de página por defecto
 export const TITULO_PAGINA = 'Biklas';

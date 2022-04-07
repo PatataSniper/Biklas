@@ -1,6 +1,6 @@
 // Biklas (2021)
 
-import { loginUser, logout } from "./actions";
+import { createUser, loginUser, logout } from "./actions";
 import { AuthContextProvider, AuthContext } from "./context";
 
 export {
@@ -8,4 +8,5 @@ export {
   AuthContext,
   loginUser,
   logout,
+  createUser
 };
