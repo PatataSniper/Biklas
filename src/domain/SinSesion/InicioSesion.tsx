@@ -132,14 +132,14 @@ const InicioSesion: React.FC<InicioSesionProps> = () => {
           </IonRow>
           <IonRow>
             <IonCol>
-              <a href={`/Usuarios/RecuperarContrasenia/${}`}>Olvidé mi contraseña</a>
+              <IonButton routerLink="/creacionUsuario" fill="solid" expand="block" color="secondary">
+                Crear cuenta
+              </IonButton>
             </IonCol>
           </IonRow>
           <IonRow>
             <IonCol>
-              <IonButton routerLink="/creacionUsuario" fill="solid" expand="block" color="secondary">
-                Crear cuenta
-              </IonButton>
+              <IonButton expand="full" routerLink="/recuperacionContra" fill="clear">Olvidé mi contraseña</IonButton>
             </IonCol>
           </IonRow>
         </IonGrid>

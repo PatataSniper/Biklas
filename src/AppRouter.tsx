@@ -11,6 +11,7 @@ import InicioSesion from "./domain/SinSesion/InicioSesion";
 import Ruta from "./domain/Rutas/Ruta";
 import Rutas from "./domain/Rutas/Rutas";
 import CreacionUsuario from "./domain/SinSesion/CreacionUsuario";
+import RecuperacionContra from "./domain/SinSesion/RecuperacionContra";
 
 interface Props {}
 
@@ -42,8 +43,6 @@ const AppRouter: FunctionComponent<Props> = () => {
               <Route path="/rutas" component={Rutas} />
               <Route path="/amigos" component={Amigos} />
               <Route path="/configuracion" component={Configuracion} />
-              {/* <Route path="/inicioSesion" component={InicioSesion} /> */}
-              <Route path="/creacionUsuario" component={CreacionUsuario} />
               <Redirect to="tabs/inicio" />
             </IonRouterOutlet>
           </IonSplitPane>
@@ -54,6 +53,7 @@ const AppRouter: FunctionComponent<Props> = () => {
           <IonRouterOutlet id="no-login">
             <Route path="/inicioSesion" component={InicioSesion} />
             <Route path="/creacionUsuario" component={CreacionUsuario} />
+            <Route path="/recuperacionContra" component={RecuperacionContra} />
             <Redirect to="/inicioSesion" />
           </IonRouterOutlet>
         </IonReactRouter>
