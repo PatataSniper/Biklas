@@ -56,6 +56,7 @@ const Rutas: React.FC = () => {
                 fechaCreacion={reg.fechaCreacion}
                 id={reg.id}
                 esPropia={false} // Este módulo solamente mostrará rutas propias del usuario
+                coordenadas={reg.coordenadas}
               />
             </div>
           ))}

@@ -44,7 +44,7 @@ class BKDataContext {
   }
 
   /**
-   * Obtener la lista de amigos relacionados a un usuario especificado
+   * Obtiene la lista de amigos relacionados a un usuario especificado
    * @param {number} idUsuario El id del usuario especificado
    * @param {boolean} actualizar Indica si se deberán actualizar los datos
    * desde el servidor remoto o no. True por defecto
@@ -134,7 +134,7 @@ class BKDataContext {
   }
 
   /**
-   * Obtener la lista de rutas relacionadas a un usuario especificado
+   * Obtiene la lista de rutas relacionadas a un usuario especificado
    * @param {number} idUsuario El id del usuario especificado
    * @param {boolean} actualizar Indica si se deberán actualizar los datos
    * desde el servidor remoto o no. True por defecto
@@ -163,6 +163,32 @@ class BKDataContext {
     }
 
     return rutas ?? [];
+  }
+
+  /**
+   * Obtiene la ruta óptima entre dos puntos. Se calculará y se obtendrá
+   * del servidor remoto
+   * @param {number} xIni Coordenada inicial (x)
+   * @param {number} yIni Coordenada inicial (y)
+   * @param {number} xFin Coordenada final (x)
+   * @param {number} yFin Coordenada final (y)
+   */
+  static async ObtenerRutaOptima(xIni, yIni, xFin, yFin) {
+    const params = {
+      xIni,
+      yIni,
+      xFin,
+      yFin
+    }
+
+    await llamadaAjax(RUTAS_CONTROLLER, "ObtenerRutaOptima", params)
+      .then((result) => {
+        console.log("Resultado obtenido:");
+        console.log(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
   }
 }
 

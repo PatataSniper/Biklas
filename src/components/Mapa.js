@@ -16,6 +16,7 @@ const Mapa = (props) => {
           fullscreenControl={false}
           zoomControl={false}
           streetViewControl={false}
+          onClick={props.fnClick}
           >
         </Map>
     );
