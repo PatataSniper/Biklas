@@ -1,5 +1,5 @@
 import React from "react";
-import { Map, GoogleApiWrapper } from 'google-maps-react';
+import { Map, GoogleApiWrapper, Polyline } from 'google-maps-react';
 import { GOOGLE_DEV_API_KEY } from '../config/credentials-config';
 
 // Nota: Decidimos utilizar un archivo .js en lugar de un .ts, esto debido a 
@@ -18,6 +18,12 @@ const Mapa = (props) => {
           streetViewControl={false}
           onClick={props.fnClick}
           >
+            <Polyline
+              path={props.path}
+              strokeColor="#1212E4"
+              strokeOpacity={0.8}
+              strokeWeight={3}
+            />
         </Map>
     );
 }

@@ -181,14 +181,19 @@ class BKDataContext {
       yFin
     }
 
+    let rutaOptima = null;
+
     await llamadaAjax(RUTAS_CONTROLLER, "ObtenerRutaOptima", params)
       .then((result) => {
         console.log("Resultado obtenido:");
         console.log(result);
+        rutaOptima = result.shape;
       })
       .catch((error) => {
         console.log(error);
       })
+
+    return rutaOptima;
   }
 }
 

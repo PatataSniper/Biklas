@@ -12,7 +12,7 @@ interface RodarState
   posFinalX: number | null,
   posFinalY: number | null,
   obtenerRuta: boolean,
-  coordsRuta: Array<object>
+  shapeRuta: Array<object>
 }
 
 const estadoInicial: RodarState = {
@@ -21,7 +21,7 @@ const estadoInicial: RodarState = {
   posFinalX: null,
   posFinalY: null,
   obtenerRuta: false,
-  coordsRuta: []
+  shapeRuta: []
 }
 
 const rodarReductor = (state: RodarState, action: { type: string, payload?: any }) : RodarState => {
@@ -43,7 +43,7 @@ const rodarReductor = (state: RodarState, action: { type: string, payload?: any 
       return {
         ...state,
         obtenerRuta: false,
-        coordsRuta: []
+        shapeRuta: []
       }
     case 'FINALIZAR_OBTENCION_RUTA':
       return {
@@ -52,7 +52,7 @@ const rodarReductor = (state: RodarState, action: { type: string, payload?: any 
         posInicialY: null,
         posFinalX: null,
         posFinalY: null,
-        coordsRuta: action.payload.coordsRuta
+        shapeRuta: action.payload.shapeRuta
       }
     default:
       // Sin acción válida, devolvemos el estado original sin modificación
@@ -75,60 +75,56 @@ const Rodar: FunctionComponent<RodarProps> = () => {
   const enClick = (mapProps: any, map: any, clickEvent: any) => {
     const lat = clickEvent.latLng.lat();
     const lng = clickEvent.latLng.lng();
-    let msj = `Almacenamos lat: ${lat} y lng: ${lng} como posición `;
+
+    console.log(`Lat: ${lat}`);
+    console.log(`Lng: ${lng}`);
 
     if(!state.posInicialX){
       // Capturamos la posición inicial seleccionada por el usuario
       dispatch({
         type: "GUARDAR_POS_INICIAL",
         payload: {
-          posInicialX: lng,
-          posInicialY: lat,
+          posInicialX: lat,
+          posInicialY: lng,
         },
 		  });
-
-      msj += "inicial";
     }
     else{
       // Capturamos la posición final seleccionada por el usuario
       dispatch({
         type: "GUARDAR_POS_FINAL",
         payload: {
-          posFinalX: lng,
-          posFinalY: lat,
+          posFinalX: lat,
+          posFinalY: lng,
         },
 		  });
-
-      msj += "final";
     }
-
-    console.log(msj);
   }
 
-  const obtenerRutaOptima = () =>{
-    // Iniciamos la obtención de la ruta óptima
-    dispatch({
-      type: "INICIAR_OBTENCION_RUTA",
-    });
+  const obtenerRutaOptima = async () =>{
+		// Iniciamos la obtención de la ruta óptima
+		dispatch({
+			type: "INICIAR_OBTENCION_RUTA",
+		});
 
-    BKDataContext.ObtenerRutaOptima(state.posInicialX!,
-      state.posInicialY!,
-      state.posFinalX!,
-      state.posFinalY!).then(() => {
-        // Finalizamos la obtención de la ruta óptima
-        console.log("Finalizó la obtención de la ruta");
-        dispatch({
-          type: "FINALIZAR_OBTENCION_RUTA",
-          payload: {
-            coordsRuta: [1,2,3]
-          },
-        });
-      });
+		const result = await BKDataContext.ObtenerRutaOptima(
+			state.posInicialX!,
+			state.posInicialY!,
+			state.posFinalX!,
+			state.posFinalY!
+		);
+
+		dispatch({
+			type: "FINALIZAR_OBTENCION_RUTA",
+			payload: {
+				shapeRuta: result,
+			},
+		});
   }
 
   return (
     <AppPage>
-        <Mapa fnClick={enClick}/>
+        <Mapa fnClick={enClick} path={state.shapeRuta}/>
     </AppPage>
   );
 };

@@ -49,6 +49,7 @@ const RutaItem: React.FC<{
     for(const co of coordenadas){
       // Agregamos las coordenadas separadas por |. Las coordenadas de cada vértice
       // ya deberán venir con el formato correcto ('x' y 'y' separadas por coma)
+      // Ejemplo: 20.700346,-103.330266|20.699594,-103.330786|20.699848,-103.331281
       str += `|${co}`;
     }
 
