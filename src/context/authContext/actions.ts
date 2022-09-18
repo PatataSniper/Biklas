@@ -16,7 +16,7 @@ export function loginUser(dispatch: any, loginPayload: any) {
 	// eventos de modificación de interfaz de usuario.
 	return new Promise((resolve, reject) => {
 		const requestOptions = {
-			method: "POST",
+			method: "GET",
 			headers: { "Content-Type": "application/json" },
 		};
 

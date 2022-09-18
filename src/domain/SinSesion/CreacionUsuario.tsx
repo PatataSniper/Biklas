@@ -39,7 +39,7 @@ const CreacionUsuario: React.FC<CreacionUsuarioProps> = () => {
 					Apellidos: apellidosInputRef.current!.value,
 					NombreUsuario: usuarioInputRef.current!.value,
 					CorreoElectronico: correoInputRef.current!.value,
-					Contraseña: contraInputRef.current!.value,
+					Contrasenia: contraInputRef.current!.value,
 				},
 			};
 
@@ -128,7 +128,7 @@ const CreacionUsuario: React.FC<CreacionUsuarioProps> = () => {
 							<IonLabel position="floating">Contraseña</IonLabel>
 							<IonInput
 								ref={contraInputRef}
-								id="contraseña"
+								id="contrasenia"
 								type="password"
 							/>
 						</IonItem>

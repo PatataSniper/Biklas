@@ -27,7 +27,7 @@ export function llamadaAjax(controlador, funcion, params, initOptions = null) {
   }
 
   return llamadaAjaxAURL(
-    new URL(direccion, ClientConfig.URL_API_BASE),
+    new URL(direccion, ClientConfig.URL_API),
     params,
     initOptions
   );

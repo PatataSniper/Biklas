@@ -26,7 +26,7 @@ class BKDataContext {
         textoBusqueda,
       };
 
-      await llamadaAjax(USUARIOS_CONTROLLER, null, params)
+      await llamadaAjax(USUARIOS_CONTROLLER, "busqueda", params)
         .then((result) => {
           // Asignamos los usuarios devueltos por el servidor
           usuarios = result;
@@ -61,12 +61,12 @@ class BKDataContext {
       await llamadaAjax(AMIGOS_CONTROLLER, "ObtenerAmigosRelacionados", params)
         .then((result) => {
           // Asignamos los usuarios devueltos por el servidor
-          amigos = result;
+          amigos = result.listaAmigos;
         })
         .catch((err) => console.log(err));
     }
 
-    if (!amigos) {
+    if (!amigos.length) {
       // Datos no obtenidos desde el servidor, los obtenemos del
       // almacenamiento local
       console.log("Obteniendo datos del almacenamiento local");
@@ -82,12 +82,12 @@ class BKDataContext {
     // parámetros de inicialización de la función 'fetch'
     const relacion = {
       IdUsuario: idUsuario,
-      IdAmigo: idAmigo,
+      IdUsuarioRelacionado: idAmigo,
     };
 
     // Configuramos opciones de inicialización de la función 'fetch'
     let initOptions = {
-      method: "PUT",
+      method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
       },
@@ -114,7 +114,7 @@ class BKDataContext {
     // parámetros de inicialización de la función 'fetch'
     const relacion = {
       IdUsuario: idUsuario,
-      IdAmigo: idAmigo,
+      IdUsuarioRelacionado: idAmigo,
     };
 
     // Configuramos opciones de inicialización de la función 'fetch'

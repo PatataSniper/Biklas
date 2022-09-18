@@ -26,7 +26,7 @@ class Amigos extends Component {
 
     // Obtenemos el identificador del usuario del contexto
     // de autenticación, lo asignamos al estado
-    idUsuario: this.context.authState.user?.IdUsuario ?? null,
+    idUsuario: this.context.authState.user?.idUsuario ?? null,
   };
 
   DURACION_TOAST = 3000;

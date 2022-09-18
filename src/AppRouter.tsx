@@ -26,7 +26,7 @@ const AppRouter: FunctionComponent<Props> = () => {
    */
   const tieneAcceso = (): boolean => {
     // Todo. Intentar refactorizar función dentro de contexto de autorización
-    return Boolean(authState.user?.IdUsuario);
+    return Boolean(authState.user?.idUsuario);
   };
 
   // Implementamos una barra de navegación y un menu lateral gracias a la respuesta

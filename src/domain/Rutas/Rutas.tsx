@@ -21,7 +21,7 @@ const Rutas: React.FC = () => {
 
   const obtenerRutas = async () => {
     try {
-      const idUsuario = authState.user.IdUsuario;
+      const idUsuario = authState.user.idUsuario;
       if (!idUsuario) {
         // Id de usuario no válido, abortamos el proceso
         throw new Error("Id usuario no válido");
