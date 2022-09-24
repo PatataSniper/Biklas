@@ -2,27 +2,19 @@ import React, { Component } from "react";
 
 import {
   IonAlert,
-  IonButton,
-  IonButtons,
-  IonContent,
   IonFab,
   IonFabButton,
-  IonHeader,
   IonIcon,
   IonList,
-  IonMenuButton,
-  IonPage,
-  IonTitle,
-  IonToast,
-  IonToolbar,
+  IonToast
 } from "@ionic/react";
-import { ellipsisVerticalOutline, person, personAdd } from "ionicons/icons";
+import { personAdd } from "ionicons/icons";
 import { amigo } from "../../data/amigos-context";
 import ModalBuscarPersona from "./ModalBuscarPersona";
 import AmigoItem from "./AmigoItem";
-import { AuthStateContext } from "../../context";
+import { AuthContext } from "../../context/authContext";
 import BKDataContext from "../../data/BKDataContext";
-import Usuario from "../../components/Usuario";
+import AppPage from "../../components/AppPage";
 
 class Amigos extends Component {
   state = {
@@ -34,7 +26,7 @@ class Amigos extends Component {
 
     // Obtenemos el identificador del usuario del contexto
     // de autenticación, lo asignamos al estado
-    idUsuario: this.context.user?.IdUsuario ?? null,
+    idUsuario: this.context.authState.user?.idUsuario ?? null,
   };
 
   DURACION_TOAST = 3000;
@@ -68,16 +60,18 @@ class Amigos extends Component {
    */
   eliminarAmigoHandler = () => {
     try {
-      // El usuario confirma la eliminación de un amigo, obtenemos el
-      // id de dicho amigo del estado del componente. Mostramos mensaje
-      // de éxito de eliminación, ocultamos modal de confirmación y
-      // limpiamos identificador de amigo a eliminar. Para actualizar el
-      // estado volvemos a asignar la lista de amigos sin el recién
-      // eliminado (investigar como actualizar la base de datos).
-      let { idAmigoAEliminar } = this.state;
+      // El usuario confirma la eliminación de un amigo, obtenemos el id de dicho 
+      // amigo del estado del componente. Mostramos mensaje de éxito de eliminación,
+      // ocultamos modal de confirmación y limpiamos identificador de amigo a 
+      // eliminar. Para actualizar el estado volvemos a asignar la lista de amigos
+      // sin el recién eliminado.
+      let { idAmigoAEliminar, idUsuario } = this.state;
 
       // Obtenemos al amigo a eliminar
       const amigoAEliminar = this.__obtenerAmigo(idAmigoAEliminar);
+
+      // Eliminamos la relación de la base de datos
+      BKDataContext.EliminarAmigo(idUsuario, idAmigoAEliminar);
 
       // Creamos nuevo arreglo excluyendo al amigo eliminado
       const amigos = this.state.amigos.filter(
@@ -111,9 +105,11 @@ class Amigos extends Component {
     this.setState({ estaBuscando: true });
   };
 
-  cancelarBusquedaHandler = () => {
-    // Cancel the search of users
+  cerrarBusquedaHandler = () => {
+    // Cerrar modal de búsqueda de usuarios y obtener amigos relacionados
+    // del contexto de datos.
     this.setState({ estaBuscando: false });
+    this.obtenerAmigos();
   };
 
   componentDidMount = () => {
@@ -146,7 +142,7 @@ class Amigos extends Component {
         <ModalBuscarPersona
           show={estaBuscando}
           idUsuario={this.state.idUsuario}
-          onCancel={this.cancelarBusquedaHandler}
+          onCancel={this.cerrarBusquedaHandler}
         />
         <IonToast
           isOpen={!!msjToast}
@@ -173,48 +169,32 @@ class Amigos extends Component {
             },
           ]}
         />
-        <IonPage>
-          <IonHeader>
-            <IonToolbar>
-              <IonButtons slot="start">
-                <IonMenuButton />
-              </IonButtons>
-              <IonTitle>Amigos</IonTitle>
-              <IonButtons slot="primary">
-                <IonButton>
-                  <IonIcon slot="icon-only" icon={person} />
-                </IonButton>
-              </IonButtons>
-            </IonToolbar>
-          </IonHeader>
-          <IonContent>
-            {amigos && (
-              <IonList lines="full">
-                {amigos.map((a: amigo) => (
-                  <AmigoItem
-                    key={a.id}
-                    onIniciarEliminacion={() => {
-                      this.iniciarEliminacionAmigoHandler(a.id);
-                    }}
-                    onAbrirChat={this.abrirChatHandler}
-                    amigo={a}
-                  >
-                  </AmigoItem>
-                ))}
-              </IonList>
-            )}
-            <IonFab horizontal="end" vertical="bottom" slot="fixed">
-              <IonFabButton color="light" onClick={this.buscarPersonaHandler}>
-                <IonIcon icon={personAdd}></IonIcon>
-              </IonFabButton>
-            </IonFab>
-          </IonContent>
-        </IonPage>
+        <AppPage titulo="Amigos" esVistaSecundaria>
+          {amigos && (
+            <IonList lines="full">
+              {amigos.map((a: amigo) => (
+                <AmigoItem
+                  key={a.id}
+                  onIniciarEliminacion={() => {
+                    this.iniciarEliminacionAmigoHandler(a.id);
+                  }}
+                  onAbrirChat={this.abrirChatHandler}
+                  amigo={a}
+                ></AmigoItem>
+              ))}
+            </IonList>
+          )}
+          <IonFab horizontal="end" vertical="bottom" slot="fixed">
+            <IonFabButton color="light" onClick={this.buscarPersonaHandler}>
+              <IonIcon icon={personAdd}></IonIcon>
+            </IonFabButton>
+          </IonFab>
+        </AppPage>
       </React.Fragment>
     );
   }
 }
 
-Amigos.contextType = AuthStateContext;
+Amigos.contextType = AuthContext;
 
 export default Amigos;

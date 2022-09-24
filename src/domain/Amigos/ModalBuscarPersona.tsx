@@ -1,9 +1,4 @@
-import React, {
-  InputHTMLAttributes,
-  useEffect,
-  useReducer,
-  useRef,
-} from "react";
+import React, { useEffect, useReducer, useRef } from "react";
 
 import {
   IonModal,
@@ -27,6 +22,7 @@ const estadoInicial = {
   buscando: false,
   personas: [],
   busqueda: "",
+  idAgregando: null,
 };
 
 const buscarPersonaReductor = (
@@ -35,6 +31,7 @@ const buscarPersonaReductor = (
     tipo: string;
     personas?: any[];
     busqueda?: string | undefined;
+    idAgregando?: number;
   }
 ) => {
   switch (accion.tipo) {
@@ -42,6 +39,7 @@ const buscarPersonaReductor = (
       return {
         ...state,
         buscando: true,
+        idAgregando: null,
       };
     case "MOSTRAR_RESULTADOS":
       return {
@@ -53,6 +51,11 @@ const buscarPersonaReductor = (
       return {
         ...state,
         busqueda: accion.busqueda,
+      };
+    case "AGREGAR_AMIGO":
+      return {
+        ...state,
+        idAgregando: accion.idAgregando,
       };
   }
 };
@@ -74,33 +77,62 @@ const ModalBuscarPersona: React.FC<{
     });
   };
 
+  const realizarBusqueda = async () => {
+    console.log("Realizando búsqueda");
+    // Lanzamos acción de realizar búsqueda para mostrar loader al usuario
+    dispatch({ tipo: "REALIZAR_BUSQUEDA" });
+    const idUsuario = props.idUsuario;
+    if (!idUsuario) {
+      // Sin id de usuario válido, abortamos el proceso
+      throw new Error("Id usuario no válido");
+    }
+
+    const personas = await BKDataContext.Usuarios(
+      props.idUsuario,
+      state.busqueda
+    );
+
+    // Una vez obtenidos los resultados, lanzamos acción para mostrar
+    // los resultados al usuario.
+    dispatch({ tipo: "MOSTRAR_RESULTADOS", personas });
+  };
+
   useEffect(() => {
     // Preparamos la búsqueda, esta se iniciará un segundo después de la
     // introducción del texto. Almacenamos el id del temporizador para
-    // limpiarlo durante la función de limpieza. Lanzamos acción de
-    // realizar búsqueda para mostrar loader al usuario
-    dispatch({ tipo: "REALIZAR_BUSQUEDA" });
-    const idTempo = setTimeout(async () => {
-      // Una vez obtenidos los resultados, lanzamos acción para mostrar
-      // los resultados al usuario.
-      const idUsuario = props.idUsuario;
-      if (!idUsuario) {
-        // Sin id de usuario válido, abortamos el proceso
-        throw new Error("Id usuario no válido");
-      }
-
-      const personas = await BKDataContext.Usuarios(
-        props.idUsuario,
-        state.busqueda
-      );
-      dispatch({ tipo: "MOSTRAR_RESULTADOS", personas });
-    }, 1000);
+    // limpiarlo durante la función de limpieza.
+    const idTempo = setTimeout(realizarBusqueda, 1000);
 
     return () => {
       // Función de limpieza
       clearTimeout(idTempo);
     };
-  }, [state.busqueda]);
+
+    // Al arreglo de dependencias agregamos el id del usuario almacenado
+    // en las propiedades del componente, ya que typescript nos lo exije
+    // como parte de la regla 'exhaustive-deps' (React hook has a missing
+    // dependency).
+  }, [state.busqueda, props.idUsuario]);
+
+  useEffect(() => {
+    // Realizamos una búsqueda en seguida de mostrar el modal
+    if(props.show){
+      realizarBusqueda();
+    }
+  }, [props.show]);
+
+  const enAgregarAmigo = async (idAmigo: number) => {
+    dispatch({ tipo: "AGREGAR_AMIGO", idAgregando: idAmigo });
+    const idUsuario = props.idUsuario;
+
+    // Agregamos amigo al servidor
+    await BKDataContext.AgregarAmigo(idUsuario, idAmigo);
+
+    // Realizamos búsqueda para actualizar la lista de usuarios
+    // Todo. Realizar una búsqueda en este punto no parece la opción
+    // más indicada... Seguir investigando.
+    realizarBusqueda();
+  };
 
   return (
     <IonModal isOpen={props.show}>
@@ -144,7 +176,12 @@ const ModalBuscarPersona: React.FC<{
                       Amigo
                     </IonButton>
                   ) : (
-                    <IonButton fill="outline" color="secondary">
+                    <IonButton
+                      disabled={state.idAgregando === p.idUsuario}
+                      fill="outline"
+                      color="secondary"
+                      onClick={() => enAgregarAmigo(p.idUsuario)}
+                    >
                       Agregar
                     </IonButton>
                   )}
@@ -165,8 +202,12 @@ const ModalBuscarPersona: React.FC<{
           )}
           <IonRow>
             <IonCol>
-              <IonButton fill="clear" color="danger" onClick={props.onCancel}>
-                Cancelar
+              <IonButton
+                fill="clear"
+                color="secondary"
+                onClick={props.onCancel}
+              >
+                Cerrar
               </IonButton>
             </IonCol>
           </IonRow>

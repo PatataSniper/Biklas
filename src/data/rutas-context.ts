@@ -5,8 +5,9 @@ export interface Ruta {
     nombre: string,
     distancia: string,
     fechaCreacion: Date,
-    fechaUltRecorr: Date,
-    fotografias: Fotografia[]
+    fechaUltRecor: Date,
+    fotografias: Fotografia[],
+    coordenadas: string[]
 }
 
 interface Fotografia {

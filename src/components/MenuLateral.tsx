@@ -8,24 +8,27 @@ import {
   IonIcon,
   IonLabel,
 } from "@ionic/react";
-import { bicycle, mapSharp, person, personCircle } from "ionicons/icons";
+import { mapSharp, person, personCircle, settings } from "ionicons/icons";
+import { AuthContext } from "../context/authContext";
 
 const MenuLateral: React.FC = () => {
+  // Obtenemos estado de autorización y función dispatch desde el provider context más cercano
+  const { authState } = React.useContext(AuthContext) as any;
+
+  /**
+   * Función que nos idndica si el usuario está firmado o no (es decir si tiene acceso)
+   * @returns {boolean} Booleano indicando si el usuario está firmado o no (es decir si tiene
+   * acceso)
+   */
+  const tieneAcceso = (): boolean => {
+    // Todo. Intentar refactorizar función dentro de contexto de autorización
+    return Boolean(authState.user?.IdUsuario);
+  };
+
   return (
     <IonMenu contentId="main">
-      {/* <IonHeader>
-        <IonToolbar>
-          <IonTitle>Biklas</IonTitle>
-        </IonToolbar>
-      </IonHeader> */}
       <IonContent>
         <IonList>
-          <IonMenuToggle key="rodar">
-            <IonItem button routerLink="/rodar" routerDirection="none">
-              <IonIcon slot="start" icon={bicycle} />
-              <IonLabel>Rodar</IonLabel>
-            </IonItem>
-          </IonMenuToggle>
           <IonMenuToggle key="rutas">
             <IonItem button routerLink="/rutas" routerDirection="none">
               <IonIcon slot="start" icon={mapSharp} />
@@ -38,10 +41,10 @@ const MenuLateral: React.FC = () => {
               <IonLabel>Amigos</IonLabel>
             </IonItem>
           </IonMenuToggle>
-          <IonMenuToggle key="inicioSesion">
-            <IonItem button routerLink="/inicioSesion" routerDirection="none">
-              <IonIcon slot="start" icon={personCircle} />
-              <IonLabel>Iniciar sesión</IonLabel>
+          <IonMenuToggle key="configuracion">
+            <IonItem button routerLink="/configuracion">
+              <IonIcon slot="start" icon={settings}></IonIcon>
+              <IonLabel>Configuración</IonLabel>
             </IonItem>
           </IonMenuToggle>
         </IonList>

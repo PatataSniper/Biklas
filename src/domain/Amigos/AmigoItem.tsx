@@ -1,5 +1,5 @@
 import React from "react";
-import { IonItem, IonLabel, IonAvatar, IonButton, IonIcon, IonModal, IonContent, IonPopover, IonList } from "@ionic/react";
+import { IonItem, IonLabel, IonAvatar, IonIcon, IonPopover, IonList } from "@ionic/react";
 
 import { ellipsisVerticalOutline } from "ionicons/icons";
 import { amigo } from "../../data/amigos-context";
@@ -51,7 +51,8 @@ const AmigoItem: React.FC<{
   return (
     <IonItem>
       <IonAvatar>
-        <img src="https://media.istockphoto.com/photos/male-silhouette-as-avatar-profile-picture-picture-id519078721?k=6&m=519078721&s=612x612&w=0&h=N80uhQg1D7QpAgccoDxkFMRqrGsTfhf6KX1NRhsxWPw=" />
+        <img alt=""
+        src="https://media.istockphoto.com/photos/male-silhouette-as-avatar-profile-picture-picture-id519078721?k=6&m=519078721&s=612x612&w=0&h=N80uhQg1D7QpAgccoDxkFMRqrGsTfhf6KX1NRhsxWPw=" />
       </IonAvatar>
       <IonLabel>
         <h2>{props.amigo.nombreUsuario}</h2>

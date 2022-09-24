@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Route } from "react-router-dom";
-import { AuthStateContext } from "../context";
-import InicioSesion from "../domain/InicioSesion/InicioSesion";
+import { AuthContext } from "../context/authContext";
+import InicioSesion from "../domain/SinSesion/InicioSesion";
 
 export const AppRoute: React.FC<{
   path: string;
@@ -9,7 +9,7 @@ export const AppRoute: React.FC<{
   component: any;
   props?: {};
 }> = (props) => {
-  const userContex = useContext(AuthStateContext) as any;
+  const authContex = useContext(AuthContext) as any;
 
   /**
    * Nos indicará si el usuario tiene acceso a la ruta actual, ya sea
@@ -17,7 +17,7 @@ export const AppRoute: React.FC<{
    * @returns {boolean} ¿El usario tiene acceso a la ruta actual?
    */
   const tieneAcceso = () => {
-    return !props.isPrivate || Boolean(userContex.user?.IdUsuario);
+    return !props.isPrivate || Boolean(authContex.authState.user?.IdUsuario);
   };
 
   return (

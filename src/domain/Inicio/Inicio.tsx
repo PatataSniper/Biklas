@@ -1,38 +1,12 @@
 import React from "react";
-import {
-  IonButton,
-  IonButtons,
-  IonContent,
-  IonHeader,
-  IonIcon,
-  IonMenuButton,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-} from "@ionic/react";
-import { person } from "ionicons/icons";
+import AppPage from "../../components/AppPage";
 
-const Rodar: React.FC = () => {
+const Inicio: React.FC = () => {
   return (
-    <IonPage>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonMenuButton />
-          </IonButtons>
-          <IonButtons slot="primary">
-            <IonButton>
-              <IonIcon slot="icon-only" icon={person} />
-            </IonButton>
-          </IonButtons>
-          <IonTitle>Biklas</IonTitle>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent>
-        <h2>Funciona! Vamos a rodar...</h2>
-      </IonContent>
-    </IonPage>
+    <AppPage>
+      <h2>Página de inicio</h2>
+    </AppPage>
   );
 };
 
-export default Rodar;
+export default Inicio;
