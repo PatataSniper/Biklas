@@ -7,5 +7,5 @@ export class ClientConfig {
     static URL_API_AZURE = "https://biklasapi.azurewebsites.net/api/";
 
     // Servicio a utilizar
-    static URL_API = this.URL_API_AZURE;
+    static URL_API = this.URL_API_LOCAL;
 }
