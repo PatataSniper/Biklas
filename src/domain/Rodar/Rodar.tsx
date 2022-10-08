@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useEffect, useReducer, useState } from "react";
+import React, { FunctionComponent, useEffect, useReducer } from "react";
 import AppPage from "../../components/AppPage";
 import Mapa from "../../components/Mapa";
 import BKDataContext from "../../data/BKDataContext";
