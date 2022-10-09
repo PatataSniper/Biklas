@@ -56,9 +56,11 @@ export function llamadaAjaxAURL(url, params, initOptions) {
       .then((respuesta) => {
         if (!respuesta.ok) {
           // Error durante enlace con el servidor, este error no le debería concernir al usuario
-          // lo mostramos en consola y rechazamos la promesa sin información de error
-          console.error(`Error HTTP: ${respuesta.status}`);
-          reject();
+          // final. Lo mostramos en consola y, solo en modo de depuración, rechazamos la promesa 
+          // información del error
+          const msj = `Error HTTP: ${respuesta.status}`
+          console.error(msj);
+          reject(ClientConfig.DEBUG_MODE ? msj : null);
         }
 
         // Llamada sin errores de solicitud, solicitamos el contenido de la respuesta
@@ -74,7 +76,7 @@ export function llamadaAjaxAURL(url, params, initOptions) {
           .catch((error) => {
             // Error durante proceso en el servidor, es probable que este
             // error le concierna al usuario, rechazamos la promesa con información
-            // de error
+            // der error
             reject(error);
           });
       })
