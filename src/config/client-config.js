@@ -8,4 +8,7 @@ export class ClientConfig {
 
     // Servicio a utilizar
     static URL_API = this.URL_API_LOCAL;
+
+    // Configuración del modo de depuración
+    static DEBUG_MODE = true;
 }
