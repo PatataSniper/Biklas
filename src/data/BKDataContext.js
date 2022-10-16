@@ -173,7 +173,7 @@ class BKDataContext {
    * @param {number} xFin Coordenada final (x)
    * @param {number} yFin Coordenada final (y)
    */
-  static async ObtenerRutaOptima(xIni, yIni, xFin, yFin) {
+  static ObtenerRutaOptima(xIni, yIni, xFin, yFin) {
     const params = {
       xIni,
       yIni,
@@ -181,19 +181,12 @@ class BKDataContext {
       yFin
     }
 
-    let rutaOptima = null;
-
-    await llamadaAjax(RUTAS_CONTROLLER, "ObtenerRutaOptima", params)
+    return llamadaAjax(RUTAS_CONTROLLER, "ObtenerRutaOptima", params)
       .then((result) => {
         console.log("Resultado obtenido:");
         console.log(result);
-        rutaOptima = result.shape;
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-
-    return rutaOptima;
+        return result;
+      });
   }
 }
 
