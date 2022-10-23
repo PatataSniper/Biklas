@@ -1,3 +1,4 @@
+import { IonLoading, IonToast } from "@ionic/react";
 import React, { FunctionComponent, useEffect, useReducer } from "react";
 import AppPage from "../../components/AppPage";
 import Mapa from "../../components/Mapa";
@@ -12,7 +13,9 @@ interface RodarState
   posFinalX: number | null,
   posFinalY: number | null,
   obtenerRuta: boolean,
-  shapeRuta: Array<object>
+  shapeRuta: Array<object>,
+  procesando: boolean,
+  msjError: string | null
 }
 
 const estadoInicial: RodarState = {
@@ -21,7 +24,9 @@ const estadoInicial: RodarState = {
   posFinalX: null,
   posFinalY: null,
   obtenerRuta: false,
-  shapeRuta: []
+  shapeRuta: [],
+  procesando: false,
+  msjError: null
 }
 
 const rodarReductor = (state: RodarState, action: { type: string, payload?: any }) : RodarState => {
@@ -43,17 +48,25 @@ const rodarReductor = (state: RodarState, action: { type: string, payload?: any 
       return {
         ...state,
         obtenerRuta: false,
-        shapeRuta: []
+        shapeRuta: [],
+        procesando: true
       }
     case 'FINALIZAR_OBTENCION_RUTA':
       return {
-        ...state,
-        posInicialX: null,
-        posInicialY: null,
-        posFinalX: null,
-        posFinalY: null,
-        shapeRuta: action.payload.shapeRuta
-      }
+			...state,
+			posInicialX: null,
+			posInicialY: null,
+			posFinalX: null,
+			posFinalY: null,
+			shapeRuta: action.payload.shapeRuta,
+			procesando: false,
+			msjError: action.payload.msjError,
+		}
+      case 'FINALIZAR_DESPLIEGUE_ERROR':
+      return {
+			...state,
+			msjError: null,
+		};
     default:
       // Sin acción válida, devolvemos el estado original sin modificación
       console.error(`Acción '${action.type}' no configurada en reductor`);
@@ -101,30 +114,55 @@ const Rodar: FunctionComponent<RodarProps> = () => {
     }
   }
 
-  const obtenerRutaOptima = async () =>{
+  const obtenerRutaOptima = () =>{
 		// Iniciamos la obtención de la ruta óptima
 		dispatch({
 			type: "INICIAR_OBTENCION_RUTA",
 		});
 
-		const result = await BKDataContext.ObtenerRutaOptima(
+    // Preparamos variables de obtención de información y de obtención
+    // de errores
+    let rOptima: any[] = [];
+    let msjError: string | null = null;
+		BKDataContext.ObtenerRutaOptima(
 			state.posInicialX!,
 			state.posInicialY!,
 			state.posFinalX!,
 			state.posFinalY!
-		);
-
-		dispatch({
-			type: "FINALIZAR_OBTENCION_RUTA",
-			payload: {
-				shapeRuta: result,
-			},
-		});
+		).then((result: any) => {
+      // Éxito en la obtención de la ruta óptima
+      rOptima = result.shape;
+    }).catch((error) => {
+      // Error en la obtención de la ruta óptima
+      console.error(error);
+      msjError = error;
+    }).finally(() => {
+      // Finalizamos la obtención de la ruta óptima
+      dispatch({
+        type: "FINALIZAR_OBTENCION_RUTA",
+        payload: {
+          shapeRuta: rOptima,
+          msjError
+        },
+      });
+    });
   }
 
   return (
     <AppPage>
         <Mapa fnClick={enClick} path={state.shapeRuta}/>
+        <IonLoading
+				isOpen={state.procesando}
+				message={"Procesando..."}
+			  />
+        <IonToast
+				isOpen={state.msjError !== null}
+				onDidDismiss={() => dispatch({ type: "FINALIZAR_DESPLIEGUE_ERROR" })}
+				message={state.msjError || ""}
+				position="bottom"
+				duration={5000}
+				color="danger"
+			  />
     </AppPage>
   );
 };
